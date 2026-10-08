@@ -102,6 +102,12 @@
 
   .svc{list-style:none;margin-top:16px;text-align:left;max-width:360px}
   .svc li{padding:10px 0;border-bottom:1px dashed rgba(30,33,64,.3)}
+  .ic{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.25em;flex:none}
+  .svc li{display:flex;gap:10px;align-items:flex-start}
+  .svc li .ic{color:var(--sea);margin-top:.15em}
+  .secrets .ic{color:var(--ink)}
+  .goldnote .ic,.toast .ic{color:var(--sun)}
+  .done .ic{color:var(--code)}
   footer{padding:30px 20px 70px;text-align:center;color:var(--muted);font-size:14px}
   footer a{color:var(--ink);margin:0 8px}
 
@@ -113,13 +119,23 @@
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15 L20 20"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5 H13.5"/></symbol>
+  <symbol id="i-web" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M2.5 8.5 H21.5"/><path d="M6 13 H14"/><path d="M6 16 H11"/></symbol>
+  <symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="7.5" width="16" height="12" rx="3.5"/><path d="M12 7.5 V4"/><circle cx="12" cy="3.2" r="1"/><circle cx="9" cy="13" r="1.2"/><circle cx="15" cy="13" r="1.2"/><path d="M9.5 16.5 C11 17.5 13 17.5 14.5 16.5"/></symbol>
+  <symbol id="i-game" viewBox="0 0 24 24"><path d="M7 8 H17 C19.8 8 21.5 10.5 21 13.5 L20.4 16.5 C20 18.6 17.6 19.2 16.3 17.6 L14.8 15.8 H9.2 L7.7 17.6 C6.4 19.2 4 18.6 3.6 16.5 L3 13.5 C2.5 10.5 4.2 8 7 8 Z"/><path d="M7.5 11 V14"/><path d="M6 12.5 H9"/><circle cx="16" cy="12" r=".9"/><circle cx="17.5" cy="13.8" r=".9"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3 L13.8 10.2 L21 12 L13.8 13.8 L12 21 L10.2 13.8 L3 12 L10.2 10.2 Z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 21 C7.5 21 5.5 17.8 5.5 15 C5.5 11 9 9.5 9.5 5.5 C12.5 7.5 13 10 12.5 12 C14 11.5 15 10 15.2 8.5 C17.5 10.5 18.5 13 18.5 15 C18.5 18 16.3 21 12 21 Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7"/></symbol>
+</svg>
 <div class="topfade"></div>
 <a class="brand" href="#top">Andreos<span>игры, приложения, AI</span></a>
 <div class="tools">
   <button class="chip" id="music" type="button" aria-pressed="false" aria-label="Фоновая музыка"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="musicLabel">Музыка</span></button>
   <a class="chip" data-track="top-dm" href="https://ig.me/m/misterandreos">Написать</a>
 </div>
-<div class="secrets" id="secrets" title="Нажимай на рисунки, чтобы найти секреты">🔍 Секреты <b id="secN">0</b>/3</div>
+<div class="secrets" id="secrets" title="Нажимай на рисунки, чтобы найти секреты"><svg class="ic"><use href="#i-search"/></svg> Секреты <b id="secN">0</b>/3</div>
 <div class="progress" id="progress"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -143,7 +159,7 @@
   <section class="ch" data-draw>
     <div class="inner split">
       <div class="art secret" id="sLamp" data-secret="lamp" role="button" tabindex="0" aria-label="Лампочка. Нажми на неё.">
-        <span class="bubble" id="bLamp">Секрет найден: идея загорелась! 💡</span>
+        <span class="bubble" id="bLamp">Секрет найден: идея загорелась!</span>
         <svg viewBox="0 0 200 200" aria-hidden="true">
           <path class="glow" d="M100 30 C62 30 44 60 50 88 C54 108 72 118 74 138 L126 138 C128 118 146 108 150 88 C156 60 138 30 100 30 Z"/>
           <path d="M78 152 L122 152"/><path d="M84 166 L116 166"/>
@@ -171,7 +187,7 @@
   <section class="ch" data-draw>
     <div class="inner split rev">
       <div class="art secret" id="sBot" data-secret="bot" role="button" tabindex="0" aria-label="Робот. Нажми на него.">
-        <span class="bubble" id="bBot">Привет! Я помогаю писать код 🤖</span>
+        <span class="bubble" id="bBot">Привет! Я помогаю писать код</span>
         <svg viewBox="0 0 200 200" aria-hidden="true">
           <rect x="40" y="56" width="120" height="96" rx="18"/>
           <path d="M100 56 L100 34"/><circle class="sun" cx="100" cy="28" r="6"/>
@@ -247,10 +263,10 @@
         <h2>И это не только игры</h2>
         <p>Игры — самое заметное, но я делаю гораздо больше. С ИИ можно быстро собрать почти любой цифровой проект.</p>
         <ul class="svc">
-          <li>📱 Приложения для работы, учёбы и бизнеса</li>
-          <li>🌐 Сайты и лендинги, как этот</li>
-          <li>🤖 AI-агенты: чат-боты, помощники для клиентов, автоматизация рутины</li>
-          <li>🎮 Игры для брендов, событий и обучения</li>
+          <li><svg class="ic"><use href="#i-phone"/></svg><span>Приложения для работы, учёбы и бизнеса</span></li>
+          <li><svg class="ic"><use href="#i-web"/></svg><span>Сайты и лендинги, как этот</span></li>
+          <li><svg class="ic"><use href="#i-bot"/></svg><span>AI-агенты: чат-боты, помощники для клиентов, автоматизация рутины</span></li>
+          <li><svg class="ic"><use href="#i-game"/></svg><span>Игры для брендов, событий и обучения</span></li>
         </ul>
         <a class="btn" data-track="more-dm" href="https://ig.me/m/misterandreos">Рассказать о задаче</a>
       </div>
@@ -261,7 +277,7 @@
   <section class="ch" data-draw>
     <div class="inner split">
       <div class="art secret" id="sFish" data-secret="fish" role="button" tabindex="0" aria-label="Рыбка. Нажми на неё.">
-        <span class="bubble" id="bFish">Буль! Ты нашёл рыбку 🐠</span>
+        <span class="bubble" id="bFish">Буль! Ты нашёл рыбку</span>
         <svg viewBox="0 0 200 200" aria-hidden="true" id="fishSvg">
           <path class="sea" d="M40 100 C70 60 130 60 150 100 C130 140 70 140 40 100 Z"/>
           <path class="sea" d="M150 100 L180 76 L176 100 L180 124 Z"/>
@@ -293,7 +309,7 @@
         <div class="hud"><span id="sc">0 этажей</span><span id="goal">Цель: 12</span><span id="best">Рекорд: 0</span></div>
         <div class="overlay" id="ov"><div id="ovt">Нажми, чтобы начать<small>или пробел на клавиатуре</small></div></div>
       </div>
-      <div class="goldnote" id="goldnote" hidden>✨ Золотая башня открыта</div>
+      <div class="goldnote" id="goldnote" hidden><svg class="ic"><use href="#i-spark"/></svg> Золотая башня открыта</div>
       <div class="stats">
         <div><b id="statBest">0</b><span>твой рекорд</span></div>
         <div><b id="statStreak">0</b><span id="streakWord">дней подряд</span></div>
@@ -317,11 +333,11 @@
         <h2>Сделаю и для тебя</h2>
         <p>Нужна игра, приложение, сайт или AI-агент? Расскажи задачу, я предложу решение, сроки и стоимость.</p>
         <ul class="svc">
-          <li>🤖 AI-агент или чат-бот</li>
-          <li>📱 Приложение</li>
-          <li>🌐 Сайт или лендинг</li>
-          <li>🎮 Игра</li>
-          <li>✨ Или что-то своё, обсудим</li>
+          <li><svg class="ic"><use href="#i-bot"/></svg><span>AI-агент или чат-бот</span></li>
+          <li><svg class="ic"><use href="#i-phone"/></svg><span>Приложение</span></li>
+          <li><svg class="ic"><use href="#i-web"/></svg><span>Сайт или лендинг</span></li>
+          <li><svg class="ic"><use href="#i-game"/></svg><span>Игра</span></li>
+          <li><svg class="ic"><use href="#i-spark"/></svg><span>Или что-то своё, обсудим</span></li>
         </ul>
         <a class="btn" data-track="order-dm" href="https://ig.me/m/misterandreos">Обсудить в директе</a><a class="btn ghost" data-track="idea-dm" href="https://ig.me/m/misterandreos">Предложить идею игры</a>
       </div>
@@ -338,7 +354,7 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 function plural(n,a,b,c){const m=n%10,h=n%100;return m==1&&h!=11?a:(m>=2&&m<=4&&(h<10||h>=20)?b:c)}
 const toastEl=document.getElementById('toast'); let toastT;
-function toast(msg){toastEl.textContent=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('on'),2600)}
+function toast(msg){toastEl.innerHTML=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('on'),2600)}
 
 /* ---------- рисунки, которые прорисовываются при прокрутке ---------- */
 const scenes=[...document.querySelectorAll('[data-draw]')].map(sec=>{
@@ -376,13 +392,13 @@ document.querySelectorAll('.secret').forEach(el=>{
     const k=el.dataset.secret; secretFx[k](el); chime();
     const b=el.querySelector('.bubble'); b.classList.add('on'); setTimeout(()=>b.classList.remove('on'),2200);
     if(!found.has(k)){found.add(k);store.set('secrets',[...found]);renderSecrets();track('secret-'+k);
-      toast(found.size<3?'Секрет '+found.size+' из 3 найден':'Все 3 секрета найдены! Золотая башня ждёт в главе 7 ✨');
+      toast(found.size<3?'Секрет '+found.size+' из 3 найден':'<svg class="ic"><use href="#i-spark"/></svg> Все 3 секрета найдены! Золотая башня ждёт в главе 7');
       if(found.size===3) track('secrets-all');}
   };
   el.addEventListener('click',go);
   el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}});
 });
-document.getElementById('secrets').addEventListener('click',()=>toast(found.size<3?'Подсказка: нажимай на рисунки в главах':'Все секреты найдены ✨'));
+document.getElementById('secrets').addEventListener('click',()=>toast(found.size<3?'Подсказка: нажимай на рисунки в главах':'<svg class="ic"><use href="#i-spark"/></svg> Все секреты найдены'));
 
 /* ---------- генератор идей ---------- */
 const who=['хомяк-повар','робот-курьер','кот-хакер','бабушка-ниндзя','пингвин-строитель','дракончик-почтальон','улитка-гонщик','призрак-библиотекарь','медведь-диджей','кактус-космонавт'];
@@ -397,40 +413,71 @@ document.getElementById('genBtn').addEventListener('click',()=>{
   if(!reduce) ideaEl.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:300});
 });
 
-/* ---------- спокойная фоновая музыка (генерируется в браузере, без файлов) ---------- */
-let AC=null, master=null, musicOn=false, loopT=null;
-const NOTES=[261.63,293.66,329.63,392,440,523.25,587.33,659.25]; // пентатоника до-мажор
+/* ---------- фоновая музыка: оригинальный «космический» орган (генерируется в браузере, без файлов) ---------- */
+let AC=null, master=null, verb=null, musicOn=false, loopT=null, tickT=null, step=0;
+const NOTES=[293.66,349.23,392,440,523.25,587.33,698.46]; // ноты для звуков игры (ре минор)
+function makeImpulse(sec,decay){ // эхо большого зала
+  const len=AC.sampleRate*sec, buf=AC.createBuffer(2,len,AC.sampleRate);
+  for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay)}
+  return buf;
+}
 function initAudio(){
   AC=new (window.AudioContext||window.webkitAudioContext)();
   master=AC.createGain(); master.gain.value=0;
-  const delay=AC.createDelay(); delay.delayTime.value=0.45;
-  const fb=AC.createGain(); fb.gain.value=0.35;
-  const lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=2200;
-  master.connect(lp); lp.connect(AC.destination); lp.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(AC.destination);
+  const lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=3200;
+  verb=AC.createConvolver(); verb.buffer=makeImpulse(5,2.6);
+  const wet=AC.createGain(), dry=AC.createGain(); wet.gain.value=0.55; dry.gain.value=0.6;
+  master.connect(lp); lp.connect(dry); dry.connect(AC.destination); lp.connect(verb); verb.connect(wet); wet.connect(AC.destination);
 }
-function tone(freq,t,dur,vol,type){
-  const o=AC.createOscillator(), g=AC.createGain();
-  o.type=type||'sine'; o.frequency.value=freq;
-  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+Math.min(0.8,dur*0.3)); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
-  o.connect(g); g.connect(master); o.start(t); o.stop(t+dur+0.1);
+// органная труба: несколько гармоник, как регистры органа
+function pipe(freq,t,dur,vol,att){
+  const g=AC.createGain(); g.connect(master);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+(att||1.5));
+  g.gain.setValueAtTime(vol,t+dur-1.5); g.gain.linearRampToValueAtTime(0,t+dur);
+  [[1,1],[2,.5],[3,.22],[4,.18],[8,.06]].forEach(([h,a])=>{
+    const o=AC.createOscillator(); o.type='sine'; o.frequency.value=freq*h; o.detune.value=(Math.random()-.5)*6;
+    const og=AC.createGain(); og.gain.value=a; o.connect(og); og.connect(g); o.start(t); o.stop(t+dur+.1);
+  });
 }
-const CHORDS=[[130.81,196,261.63],[110,164.81,220],[87.31,130.81,174.61],[98,146.83,196]]; // C Am F G
-let chordI=0;
-function schedule(){
+function tone(freq,t,dur,vol){ // мягкая нота для эффектов
+  const o=AC.createOscillator(), g=AC.createGain(); o.type='sine'; o.frequency.value=freq;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.02); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g); g.connect(master); o.start(t); o.stop(t+dur+.1);
+}
+function tick(){ // мерный «ход часов»
   if(!musicOn) return;
-  const t=AC.currentTime+0.05, ch=CHORDS[chordI%CHORDS.length];
-  ch.forEach(f=>tone(f,t,7.5,0.05,'triangle'));
-  for(let i=0;i<4;i++){ if(Math.random()<0.75) tone(pick(NOTES),t+i*1.8+Math.random()*0.3,2.6,0.035,'sine') }
-  chordI++; loopT=setTimeout(schedule,7200);
+  const t=AC.currentTime, n=AC.createBufferSource(), b=AC.createBuffer(1,AC.sampleRate*.03,AC.sampleRate), d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,8);
+  const hp=AC.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=3500;
+  const g=AC.createGain(); g.gain.value=.05; n.buffer=b; n.connect(hp); hp.connect(g); g.connect(master); n.start(t);
+  tickT=setTimeout(tick,1250);
 }
-function chime(){ if(!musicOn||!AC) return; const t=AC.currentTime; tone(784,t,1.2,0.06,'sine'); tone(1046.5,t+0.12,1.4,0.05,'sine') }
+// свой медленный ход аккордов: Dm – B♭ – F – C/E, с низкой педалью
+const PROG=[
+  {bass:73.42, chord:[293.66,349.23,440], arp:[440,587.33,523.25,587.33]},
+  {bass:58.27, chord:[233.08,293.66,349.23], arp:[349.23,466.16,440,466.16]},
+  {bass:87.31, chord:[261.63,349.23,440], arp:[440,523.25,698.46,523.25]},
+  {bass:82.41, chord:[261.63,329.63,392], arp:[392,523.25,659.25,523.25]},
+];
+function phrase(){
+  if(!musicOn) return;
+  const t=AC.currentTime+.05, p=PROG[step%PROG.length], len=10;
+  pipe(p.bass,t,len+1,.07,3);                         // педаль органа
+  p.chord.forEach(f=>pipe(f,t+.3,len+.5,.035,3.5));    // медленно нарастающий аккорд
+  if(step>=2){                                         // со второго круга добавляется тихая пульсация
+    for(let i=0;i<16;i++) tone(p.arp[i%4],t+1+i*.55,1.1,.022);
+  }
+  step++; loopT=setTimeout(phrase,len*1000);
+}
+function chime(){ if(!musicOn||!AC) return; const t=AC.currentTime; tone(880,t,1.6,.05); tone(1174.66,t+.15,1.8,.04) }
 const mBtn=document.getElementById('music'), mLabel=document.getElementById('musicLabel');
 mBtn.addEventListener('click',()=>{
   if(!AC) initAudio();
   musicOn=!musicOn; mBtn.setAttribute('aria-pressed',musicOn); mLabel.textContent=musicOn?'Музыка вкл':'Музыка';
   const now=AC.currentTime;
-  if(musicOn){AC.resume(); master.gain.cancelScheduledValues(now); master.gain.setValueAtTime(master.gain.value,now); master.gain.linearRampToValueAtTime(0.9,now+2); schedule(); track('music-on')}
-  else{clearTimeout(loopT); master.gain.cancelScheduledValues(now); master.gain.setValueAtTime(master.gain.value,now); master.gain.linearRampToValueAtTime(0,now+0.8)}
+  master.gain.cancelScheduledValues(now); master.gain.setValueAtTime(master.gain.value,now);
+  if(musicOn){AC.resume(); step=0; master.gain.linearRampToValueAtTime(1,now+4); phrase(); setTimeout(tick,2500); track('music-on')}
+  else{clearTimeout(loopT); clearTimeout(tickT); master.gain.linearRampToValueAtTime(0,now+1.5)}
 });
 
 /* ---------- вызов дня ---------- */
@@ -444,7 +491,7 @@ let streak=store.get('streak',{last:null,count:0});
 if(streak.last && streak.last!==dayKey && streak.last!==yKey) streak.count=0;
 function renderDaily(){
   const done=streak.last===dayKey;
-  document.getElementById('dailyText').innerHTML=done?'<span class="done">Выполнено ✓</span> Завтра новая цель':'Построй '+GOAL+' '+plural(GOAL,'этаж','этажа','этажей');
+  document.getElementById('dailyText').innerHTML=done?'<span class="done"><svg class="ic"><use href="#i-check"/></svg> Выполнено</span> Завтра новая цель':'Построй '+GOAL+' '+plural(GOAL,'этаж','этажа','этажей');
   document.getElementById('statStreak').textContent=streak.count;
   document.getElementById('streakWord').textContent=plural(streak.count,'день','дня','дней')+' подряд';
 }
@@ -452,7 +499,7 @@ renderDaily();
 function completeDaily(){
   if(streak.last===dayKey) return;
   streak={last:dayKey,count:(streak.last===yKey?streak.count:0)+1};
-  store.set('streak',streak); track('daily-complete'); renderDaily(); toast('Вызов дня выполнен! Серия: '+streak.count+' 🔥'); chime();
+  store.set('streak',streak); track('daily-complete'); renderDaily(); toast('<svg class="ic"><use href="#i-flame"/></svg> Вызов дня выполнен! Серия: '+streak.count); chime();
 }
 
 /* ---------- мини-игра ---------- */
