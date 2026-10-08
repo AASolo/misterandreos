@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andreos — игры и приложения</title>
+<meta name="description" content="Маленькие игры, от которых трудно оторваться. Бесплатно в браузере, каждый день новый вызов. Разработка игр, сайтов и приложений на заказ.">
+<meta property="og:title" content="Andreos — игры и приложения">
+<meta property="og:description" content="Бесплатно в браузере, без установки. Каждый день новый вызов.">
+<meta name="theme-color" content="#f4f4f1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Счётчик посещений GoatCounter: замените misterandreos на свой код, если он другой -->
+<script data-goatcounter="https://misterandreos.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<style>
+  :root{
+    --page:#f4f4f1; --tile:#ffffff; --ink:#111827; --muted:#4b5563; --line:#e5e7eb;
+    --sun:#ffd23f; --sky:#bfe6fb; --sky2:#eaf7fe; --term:#0b0f0c; --code:#4cf08a; --peach:#ffe4d6; --mint:#d9f5e3;
+    --r-lg:26px; --r-md:18px; --r-sm:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{font-family:"Golos Text",system-ui,sans-serif;background:var(--page);color:var(--ink);line-height:1.5;font-size:17px}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:10px}
+  .wrap{max-width:980px;margin:0 auto;padding:20px 16px 40px}
+
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .me{display:flex;gap:12px;align-items:center}
+  .ava{width:48px;height:48px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}
+  .me b{display:block;font-size:18px;line-height:1.2}
+  .me span{font-size:14px;color:var(--muted)}
+  .dm{font-weight:600;font-size:14px;padding:9px 14px;border-radius:99px;border:1px solid var(--ink)}
+  h1{font-size:clamp(38px,10vw,72px);line-height:.98;letter-spacing:-.04em;font-weight:900;margin:28px 0 12px;max-width:13ch}
+  .lead{color:var(--muted);font-size:17px;max-width:34ch}
+
+  .bento{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+  .tile{background:var(--tile);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;position:relative}
+  .wide{grid-column:1/-1}
+  .tall{grid-row:span 2}
+  .pad{padding:18px}
+  .tile h2{font-size:22px;font-weight:800;line-height:1.15;letter-spacing:-.01em}
+  .tile h3{font-size:18px;font-weight:700;line-height:1.2}
+  .tile p{color:var(--muted);font-size:15px}
+  .sub{font-size:13px;color:var(--muted);font-weight:500}
+
+  .daily{background:var(--ink);color:#fff;border:0;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px}
+  .daily .sub{color:#aab1c0}
+  .daily b{display:block;font-size:19px;line-height:1.25}
+  .daily .done{color:var(--sun)}
+  .btn-sun{flex:none;background:var(--sun);color:var(--ink);font-weight:700;font-size:15px;padding:11px 16px;border-radius:var(--r-sm);border:0;font-family:inherit;cursor:pointer}
+
+  .game{display:flex;flex-direction:column;justify-content:flex-end;min-height:168px}
+  .game .cap{padding:14px 16px 16px;position:relative}
+  .game .cap p{font-size:14px}
+  .game.tall{min-height:348px}
+  .burger{background:linear-gradient(var(--sky),var(--sky2))}
+  .stack{position:absolute;left:50%;top:36px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px}
+  .stack i{display:block;height:15px;border-radius:6px}
+  .hack{background:var(--term);border-color:var(--term);color:#fff}
+  .hack .cap p{color:#9fb3a6}
+  .hack .term{position:absolute;top:14px;left:14px;right:10px;font:500 12px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--code);white-space:nowrap;overflow:hidden;max-height:60px}
+  @media (max-width:759px){.bento .hack,.bento .fish{min-height:214px}}
+  .hack .cur{display:inline-block;width:7px;height:14px;background:var(--code);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .fish{background:var(--peach)}
+  .fish .em{position:absolute;top:26px;left:0;right:0;text-align:center;font-size:46px}
+  .pill{display:inline-block;margin-top:8px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(17,24,39,.08)}
+  .hack .pill{background:rgba(255,255,255,.12)}
+
+  .playtile{display:grid;gap:14px}
+  .stage{position:relative;border-radius:var(--r-md);overflow:hidden;background:linear-gradient(var(--sky),var(--sky2));max-width:420px;width:100%;margin:0 auto}
+  canvas{display:block;width:100%;height:auto;touch-action:manipulation;cursor:pointer}
+  .hud{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:6px;font-weight:700;font-size:13px;pointer-events:none}
+  .hud span{background:rgba(255,255,255,.92);padding:4px 10px;border-radius:99px}
+  .overlay{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+  .overlay div{background:#fff;border-radius:16px;padding:14px 18px;font-weight:700;max-width:80%;text-align:center;box-shadow:0 10px 30px rgba(17,24,39,.15)}
+  .overlay small{display:block;font-weight:400;font-size:14px;color:var(--muted);margin-top:4px}
+  .overlay[hidden]{display:none}
+  .link-full{display:block;text-align:center;font-weight:700;padding:13px;border-radius:var(--r-sm);background:var(--ink);color:#fff;max-width:420px;width:100%;margin:0 auto}
+
+  .stat{padding:16px 18px}
+  .stat b{display:block;font-size:34px;font-weight:900;line-height:1.1;letter-spacing:-.02em}
+  .stat.sun{background:var(--sun);border-color:var(--sun)}
+  .stat.mint{background:var(--mint);border-color:var(--mint)}
+
+  .how{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .how .tile{padding:16px}
+  .num{width:30px;height:30px;border-radius:50%;background:var(--page);display:grid;place-items:center;font-weight:800;font-size:14px;margin-bottom:10px}
+  .how p{margin-top:2px}
+  .sec{font-size:28px;font-weight:900;letter-spacing:-.02em;margin:40px 0 14px}
+
+  .idea{background:var(--sun);border-color:var(--sun)}
+  .idea p{color:#3b3417;margin:6px 0 14px}
+  .btn{display:inline-block;font-weight:700;padding:12px 18px;border-radius:var(--r-sm);background:var(--ink);color:#fff}
+  .biz{background:var(--ink);color:#fff;border:0}
+  .biz p{color:#aab1c0}
+  .svc{list-style:none;margin:14px 0}
+  .svc li{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.14);font-weight:500}
+  .steps2{list-style:none;counter-reset:w;margin:6px 0 18px}
+  .steps2 li{counter-increment:w;position:relative;padding:6px 0 6px 32px;font-size:15px;color:#d5d9e2}
+  .steps2 li::before{content:counter(w);position:absolute;left:0;top:7px;width:22px;height:22px;border-radius:50%;background:var(--sun);color:var(--ink);font-size:12px;font-weight:800;display:grid;place-items:center}
+  .biz .btn{background:var(--sun);color:var(--ink);display:block;text-align:center}
+  .biz .btn.alt{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);margin-top:10px}
+  .duo{margin-top:40px}
+
+  footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:14px;margin-top:28px}
+  footer nav a{margin-left:14px;color:var(--ink)}
+
+  @media (min-width:760px){
+    .bento{grid-template-columns:repeat(4,1fr)}
+    .bento .playwrap{grid-column:1/3;grid-row:span 3}
+    .bento .game.tall{grid-column:3/4;grid-row:span 2}
+    .how{grid-template-columns:repeat(4,1fr)}
+    .duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+  }
+  @media (max-width:759px){ .duo > * + *{margin-top:12px} }
+  @media (prefers-reduced-motion:reduce){.hack .cur{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="me"><div class="ava">A</div><div><b>Andreos</b><span>Игры и приложения с ИИ</span></div></div>
+    <a class="dm" data-track="top-dm" href="https://ig.me/m/misterandreos">Написать</a>
+  </header>
+
+  <h1>Маленькие игры, от которых трудно оторваться</h1>
+  <p class="lead">Бесплатно в браузере, без установки. Каждый день новый вызов.</p>
+
+  <section class="bento" aria-label="Игры и вызов дня">
+
+    <div class="tile wide daily" id="daily">
+      <div><span class="sub">Вызов дня</span><b id="dailyText">Построй 12 этажей</b></div>
+      <button class="btn-sun" id="dailyBtn" type="button">Принять</button>
+    </div>
+
+    <div class="tile wide playwrap pad playtile" id="play">
+      <div><h2>Попробуй прямо здесь</h2><p>Нажимай, когда слой над башней. Всё, что торчит, отвалится.</p></div>
+      <div class="stage">
+        <canvas id="c" width="420" height="380" aria-label="Мини-игра: башня из бургеров. Нажмите, чтобы положить слой."></canvas>
+        <div class="hud"><span id="sc">0 этажей</span><span id="goal">Цель: 12</span><span id="best">Рекорд: 0</span></div>
+        <div class="overlay" id="ov"><div id="ovt">Нажми, чтобы начать<small>или пробел на клавиатуре</small></div></div>
+      </div>
+      <a class="link-full" data-track="mini-full-game" href="https://aasolo.github.io/ButerBashnya-1.0/">Полная версия: 4 набора и таблица рекордов</a>
+    </div>
+
+    <a class="tile game tall burger" id="games" data-track="card-buterbashnya" href="https://aasolo.github.io/ButerBashnya-1.0/">
+      <div class="stack" aria-hidden="true">
+        <i style="width:84px;height:18px;background:#f0a85a;border-radius:18px 18px 6px 6px"></i>
+        <i style="width:92px;background:#6b3a22"></i>
+        <i style="width:98px;background:#7cc142"></i>
+        <i style="width:104px;background:#ffc42e"></i>
+        <i style="width:110px;background:#6b3a22"></i>
+        <i style="width:116px;background:#f0a85a"></i>
+      </div>
+      <div class="cap"><h3>Бутербашня</h3><p>Аркада на рекорд</p><span class="pill">Для всех возрастов</span></div>
+    </a>
+
+    <a class="tile game hack" id="learn" data-track="card-hackquest" href="https://aasolo.github.io/HackQuest-3.0/">
+      <div class="term" id="term" aria-hidden="true"></div>
+      <div class="cap"><h3>HackQuest</h3><p>Выучи Python за 30 миссий</p><span class="pill">Подросткам и взрослым</span></div>
+    </a>
+
+    <div class="tile game fish">
+      <div class="em" aria-hidden="true">🐠</div>
+      <div class="cap"><h3>Скоро</h3><p>Новая игра. Угадаешь, о чём?</p></div>
+    </div>
+
+    <div class="tile stat sun"><span class="sub">Твой рекорд</span><b id="statBest">0</b><span class="sub">этажей в мини-игре</span></div>
+    <div class="tile stat mint"><span class="sub">Серия</span><b id="statStreak">0</b><span class="sub" id="streakWord">дней подряд</span></div>
+  </section>
+
+  <h2 class="sec">Как появляется игра</h2>
+  <div class="how">
+    <div class="tile"><div class="num">1</div><h3>Идея</h3><p>Своя или ваша из комментариев</p></div>
+    <div class="tile"><div class="num">2</div><h3>ИИ и код</h3><p>Собираю игру вместе с ИИ</p></div>
+    <div class="tile"><div class="num">3</div><h3>Тесты</h3><p>Даю поиграть и правлю, что мешает</p></div>
+    <div class="tile"><div class="num">4</div><h3>Запуск</h3><p>Открывается на любом устройстве</p></div>
+  </div>
+
+  <div class="duo">
+    <section class="tile pad idea">
+      <h2>Придумай игру, а я её сделаю</h2>
+      <p>Напиши идею в комментариях под постом или в директ. Лучшую соберу с ИИ и выложу с твоим именем.</p>
+      <a class="btn" data-track="idea-dm" href="https://ig.me/m/misterandreos">Предложить идею</a>
+    </section>
+
+    <section class="tile pad biz" id="order">
+      <h2>Для бизнеса и проектов</h2>
+      <p>Делаю под задачу, от идеи до запуска.</p>
+      <ul class="svc">
+        <li>🎮 Игра для бренда, события или обучения</li>
+        <li>🌐 Сайт или лендинг</li>
+        <li>💻 Приложение для работы или бизнеса</li>
+      </ul>
+      <ol class="steps2">
+        <li>Вы рассказываете задачу в директе</li>
+        <li>Я предлагаю решение, сроки и стоимость</li>
+        <li>Показываю промежуточные версии</li>
+        <li>Запускаю и передаю результат</li>
+      </ol>
+      <a class="btn" data-track="order-dm" href="https://ig.me/m/misterandreos">Обсудить задачу</a>
+      <a class="btn alt" data-track="order-instagram" href="https://www.instagram.com/misterandreos/">Мой Instagram</a>
+    </section>
+  </div>
+
+  <footer><span>Andreos, 2026</span><nav><a href="https://www.instagram.com/misterandreos/">Instagram</a><a href="https://www.threads.net/@misterandreos">Threads</a></nav></footer>
+</div>
+
+<script>
+function track(name){ try{ if(window.goatcounter && goatcounter.count) goatcounter.count({path:name,title:name,event:true}) }catch(e){} }
+document.addEventListener('click',e=>{const a=e.target.closest('[data-track]'); if(a) track(a.dataset.track)});
+
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function plural(n,a,b,c){const m=n%10,h=n%100;return m==1&&h!=11?a:(m>=2&&m<=4&&(h<10||h>=20)?b:c)}
+function localKey(d){return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+
+/* ---------- вызов дня: цель меняется каждый день ---------- */
+const today=new Date(), dayKey=localKey(today);
+const yd=new Date(today); yd.setDate(yd.getDate()-1); const yKey=localKey(yd);
+const dayNum=Math.floor(Date.UTC(today.getFullYear(),today.getMonth(),today.getDate())/864e5);
+const GOAL=8+((dayNum*7)%9); // от 8 до 16 этажей
+const dailyText=document.getElementById('dailyText'), dailyBtn=document.getElementById('dailyBtn');
+document.getElementById('goal').textContent='Цель: '+GOAL;
+let streak=store.get('streak',{last:null,count:0});
+if(streak.last && streak.last!==dayKey && streak.last!==yKey) streak.count=0;
+function renderDaily(){
+  const done=streak.last===dayKey;
+  dailyText.innerHTML=done?'<span class="done">Выполнено ✓</span> Завтра новая цель':'Построй '+GOAL+' '+plural(GOAL,'этаж','этажа','этажей');
+  dailyBtn.textContent=done?'Ещё раз':'Принять';
+  document.getElementById('statStreak').textContent=streak.count;
+  document.getElementById('streakWord').textContent=plural(streak.count,'день','дня','дней')+' подряд';
+}
+renderDaily();
+dailyBtn.addEventListener('click',()=>{track('daily-accept');document.getElementById('play').scrollIntoView({block:'start'})});
+function completeDaily(){
+  if(streak.last===dayKey) return;
+  streak={last:dayKey,count:(streak.last===yKey?streak.count:0)+1};
+  store.set('streak',streak); track('daily-complete'); renderDaily();
+}
+
+/* ---------- мини-игра ---------- */
+(() => {
+  const cv=document.getElementById('c'), ctx=cv.getContext('2d');
+  const W=cv.width, H=cv.height, LH=26;
+  const COLORS=['#f0a85a','#6b3a22','#ffc42e','#7cc142','#6b3a22','#e8412c'];
+  const scEl=document.getElementById('sc'), bestEl=document.getElementById('best'), statBest=document.getElementById('statBest');
+  const ov=document.getElementById('ov'), ovt=document.getElementById('ovt');
+  let best=store.get('tower-best',0);
+  const showBest=()=>{bestEl.textContent='Рекорд: '+best; statBest.textContent=best};
+  showBest();
+  let stack=null, cur, dir, speed, state='idle', falling=[], camY=0, reached=false;
+  const word=n=>plural(n,'этаж','этажа','этажей');
+  function reset(){stack=[{x:W/2-85,w:170,c:'#f0a85a'}];falling=[];camY=0;speed=2.2;reached=false;newLayer()}
+  function newLayer(){const top=stack[stack.length-1];dir=stack.length%2?1:-1;
+    cur={x:dir>0?-top.w*0.3:W-top.w*0.7,w:top.w,c:COLORS[stack.length%COLORS.length]}}
+  const yOf=i=>H-36-i*LH;
+  function drop(){
+    if(state!=='play'){track(state==='idle'?'mini-start':'mini-restart');reset();state='play';ov.hidden=true;scEl.textContent='0 этажей';return}
+    const top=stack[stack.length-1];
+    const l=Math.max(cur.x,top.x), r=Math.min(cur.x+cur.w,top.x+top.w);
+    if(r<=l){falling.push({...cur,y:yOf(stack.length),vy:0});return gameOver()}
+    if(cur.x<l) falling.push({x:cur.x,w:l-cur.x,c:cur.c,y:yOf(stack.length),vy:0});
+    if(cur.x+cur.w>r) falling.push({x:r,w:cur.x+cur.w-r,c:cur.c,y:yOf(stack.length),vy:0});
+    stack.push({x:l,w:r-l,c:cur.c});
+    const n=stack.length-1; scEl.textContent=n+' '+word(n);
+    if(n>=GOAL && !reached){reached=true;completeDaily()}
+    speed=Math.min(6,speed+0.15); newLayer();
+  }
+  function gameOver(){
+    state='over'; const n=stack.length-1;
+    track('mini-over-'+(n<5?'0-4':n<10?'5-9':n<20?'10-19':'20plus'));
+    if(n>best){best=n;store.set('tower-best',best);showBest()}
+    const msg=n>=GOAL?'Цель дня выполнена! Завтра будет новая.':'До цели '+(GOAL-n)+' '+word(GOAL-n)+'. Нажми, чтобы ещё раз.';
+    ovt.innerHTML=n+' '+word(n)+'<small>'+msg+'</small>'; ov.hidden=false;
+  }
+  function layer(x,y,w,c,isTop){
+    ctx.fillStyle=c; const r=isTop?Math.min(14,w/2):6;
+    ctx.beginPath(); ctx.roundRect(x,y,w,LH-3,isTop?[r,r,6,6]:6); ctx.fill();
+  }
+  function frame(){
+    const target=Math.max(0,(stack?stack.length:1)*LH-H*0.55); camY+=(target-camY)*0.1;
+    ctx.clearRect(0,0,W,H); ctx.save(); ctx.translate(0,camY);
+    if(stack){
+      stack.forEach((s,i)=>layer(s.x,yOf(i),s.w,s.c));
+      if(state==='play'){cur.x+=dir*speed; if(cur.x>W-cur.w*0.7)dir=-1; if(cur.x<-cur.w*0.3)dir=1; layer(cur.x,yOf(stack.length),cur.w,cur.c,true)}
+      falling.forEach(f=>{f.vy+=0.6;f.y+=f.vy;layer(f.x,f.y,f.w,f.c)}); falling=falling.filter(f=>f.y-camY<H+60);
+    } else {[170,160,150,140].forEach((w,i)=>layer(W/2-w/2,yOf(i),w,COLORS[i]))}
+    ctx.restore(); requestAnimationFrame(frame);
+  }
+  cv.addEventListener('pointerdown',e=>{e.preventDefault();drop()});
+  addEventListener('keydown',e=>{if(e.code==='Space'&&(document.activeElement===document.body||document.activeElement===cv)){e.preventDefault();drop()}});
+  frame();
+})();
+
+/* ---------- превью терминала ---------- */
+(() => {
+  const el=document.getElementById('term');
+  const lines=['> connect nexus','> python hack.py','> ACCESS GRANTED'];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){el.innerHTML=lines.join('<br>');return}
+  let li=0,ci=0,out='';
+  (function tick(){
+    if(li>=lines.length){setTimeout(()=>{li=0;ci=0;out='';tick()},2500);return}
+    const l=lines[li];
+    if(ci<=l.length){el.innerHTML=out+l.slice(0,ci)+'<span class="cur"></span>';ci++;setTimeout(tick,55)}
+    else{out+=l+'<br>';li++;ci=0;setTimeout(tick,400)}
+  })();
+})();
+</script>
+</body>
+</html>
