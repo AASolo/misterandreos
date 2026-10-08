@@ -6,7 +6,17 @@
 <title>Andreos — игры, приложения, сайты и AI-агенты</title>
 <meta name="description" content="Andreos делает с помощью ИИ игры, приложения, сайты и AI-агентов. Листай историю, ищи секреты и играй.">
 <meta property="og:title" content="Andreos — превращаю идеи в работающие проекты">
-<meta property="og:description" content="Листай историю, найди 3 секрета и прими вызов дня в мини-игре.">
+<meta property="og:description" content="Игры, приложения, сайты и AI-агенты, которые я делаю с помощью ИИ. Листай историю и играй прямо на сайте.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aasolo.github.io/">
+<meta property="og:site_name" content="Andreos">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:image" content="https://aasolo.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Andreos: игры, приложения, сайты и AI-агенты">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://aasolo.github.io/og.png">
 <meta name="theme-color" content="#f5f6fb">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;700;900&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
@@ -132,7 +142,7 @@
 <div class="topfade"></div>
 <a class="brand" href="#top">Andreos<span>игры, приложения, AI</span></a>
 <div class="tools">
-  <button class="chip" id="music" type="button" aria-pressed="false" aria-label="Фоновая музыка"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="musicLabel">Музыка</span></button>
+  <button class="chip" id="music" type="button" aria-pressed="false" aria-label="Музыка и звуки сайта"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="musicLabel">Звук</span></button>
   <a class="chip" data-track="top-dm" href="https://ig.me/m/misterandreos">Написать</a>
 </div>
 <div class="secrets" id="secrets" title="Нажимай на рисунки, чтобы найти секреты"><svg class="ic"><use href="#i-search"/></svg> Секреты <b id="secN">0</b>/3</div>
@@ -150,7 +160,7 @@
       <div class="txt reveal">
         <h1>Идеи, которые оживают</h1>
         <p>Я Andreos. С помощью ИИ превращаю идеи в игры, приложения, сайты и AI-агентов. Листай историю, ищи 3 спрятанных секрета, а в конце тебя ждёт игра с наградой.</p>
-        <div class="hint">включи музыку и листай вниз <i>↓</i></div>
+        <div class="hint">включи звук и листай вниз <i>↓</i></div>
       </div>
     </div>
   </section>
@@ -409,75 +419,128 @@ const pick=a=>a[Math.floor(Math.random()*a.length)];
 const ideaEl=document.getElementById('idea'), sendIdea=document.getElementById('sendIdea');
 document.getElementById('genBtn').addEventListener('click',()=>{
   const t='Игра, где '+pick(who)+' '+pick(what)+' '+pick(obj)+' '+pick(twist);
-  ideaEl.textContent=t; track('idea-generate');
+  ideaEl.textContent=t; track('idea-generate'); sfx.idea();
   if(!reduce) ideaEl.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:300});
 });
 
-/* ---------- фоновая музыка: оригинальный «космический» орган (генерируется в браузере, без файлов) ---------- */
-let AC=null, master=null, verb=null, musicOn=false, loopT=null, tickT=null, step=0;
-const NOTES=[293.66,349.23,392,440,523.25,587.33,698.46]; // ноты для звуков игры (ре минор)
-function makeImpulse(sec,decay){ // эхо большого зала
+/* ---------- звук: спокойная живая музыка + звуки сайта (всё создаётся в браузере, без файлов) ---------- */
+let AC=null, master=null, musicBus=null, sfxBus=null, musicOn=false, barT=null, nextBar=0, barN=0;
+const midi=m=>440*Math.pow(2,(m-69)/12);
+const NOTES=[60,62,64,67,69,72,74,76,79,81].map(midi); // пентатоника для звуков игры
+function makeImpulse(sec,decay){
   const len=AC.sampleRate*sec, buf=AC.createBuffer(2,len,AC.sampleRate);
   for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay)}
   return buf;
 }
 function initAudio(){
   AC=new (window.AudioContext||window.webkitAudioContext)();
-  master=AC.createGain(); master.gain.value=0;
-  const lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=3200;
-  verb=AC.createConvolver(); verb.buffer=makeImpulse(5,2.6);
-  const wet=AC.createGain(), dry=AC.createGain(); wet.gain.value=0.55; dry.gain.value=0.6;
-  master.connect(lp); lp.connect(dry); dry.connect(AC.destination); lp.connect(verb); verb.connect(wet); wet.connect(AC.destination);
+  master=AC.createGain(); master.gain.value=1;
+  const comp=AC.createDynamicsCompressor(); comp.threshold.value=-18; comp.ratio.value=3;
+  const verb=AC.createConvolver(); verb.buffer=makeImpulse(3.2,3);
+  const wet=AC.createGain(); wet.gain.value=.32;
+  musicBus=AC.createGain(); musicBus.gain.value=0;
+  sfxBus=AC.createGain(); sfxBus.gain.value=.9;
+  musicBus.connect(master); sfxBus.connect(master);
+  master.connect(comp); comp.connect(AC.destination);
+  master.connect(verb); verb.connect(wet); wet.connect(AC.destination);
 }
-// органная труба: несколько гармоник, как регистры органа
-function pipe(freq,t,dur,vol,att){
-  const g=AC.createGain(); g.connect(master);
-  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+(att||1.5));
-  g.gain.setValueAtTime(vol,t+dur-1.5); g.gain.linearRampToValueAtTime(0,t+dur);
-  [[1,1],[2,.5],[3,.22],[4,.18],[8,.06]].forEach(([h,a])=>{
-    const o=AC.createOscillator(); o.type='sine'; o.frequency.value=freq*h; o.detune.value=(Math.random()-.5)*6;
-    const og=AC.createGain(); og.gain.value=a; o.connect(og); og.connect(g); o.start(t); o.stop(t+dur+.1);
+// мягкое «войлочное» пианино
+function piano(freq,t,vol,dur,bus){
+  const g=AC.createGain(), lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=1800+freq*.8;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.008); g.gain.exponentialRampToValueAtTime(vol*.35,t+.35); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  [[1,1,'triangle'],[2,.28,'sine'],[3,.08,'sine']].forEach(([h,a,type])=>{
+    const o=AC.createOscillator(), og=AC.createGain(); o.type=type; o.frequency.value=freq*h; o.detune.value=(Math.random()-.5)*4;
+    og.gain.value=a; o.connect(og); og.connect(lp); o.start(t); o.stop(t+dur+.05);
   });
+  lp.connect(g); g.connect(bus||musicBus);
 }
-function tone(freq,t,dur,vol){ // мягкая нота для эффектов
+// тёплый фон-«подушка»
+function pad(freqs,t,dur,vol){
+  const g=AC.createGain(), lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=900; lp.Q.value=.3;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+1.6); g.gain.setValueAtTime(vol,t+dur-1.2); g.gain.linearRampToValueAtTime(0,t+dur+.4);
+  freqs.forEach(f=>[-7,7].forEach(dt=>{const o=AC.createOscillator(); o.type='triangle'; o.frequency.value=f; o.detune.value=dt; o.connect(lp); o.start(t); o.stop(t+dur+.5)}));
+  lp.connect(g); g.connect(musicBus);
+}
+function bass(freq,t,dur,vol){
   const o=AC.createOscillator(), g=AC.createGain(); o.type='sine'; o.frequency.value=freq;
-  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.02); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-  o.connect(g); g.connect(master); o.start(t); o.stop(t+dur+.1);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.04); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g); g.connect(musicBus); o.start(t); o.stop(t+dur+.05);
 }
-function tick(){ // мерный «ход часов»
-  if(!musicOn) return;
-  const t=AC.currentTime, n=AC.createBufferSource(), b=AC.createBuffer(1,AC.sampleRate*.03,AC.sampleRate), d=b.getChannelData(0);
-  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,8);
-  const hp=AC.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=3500;
-  const g=AC.createGain(); g.gain.value=.05; n.buffer=b; n.connect(hp); hp.connect(g); g.connect(master); n.start(t);
-  tickT=setTimeout(tick,1250);
+let noiseBuf=null;
+function noise(t,dur,vol,freq,type,bus){
+  if(!noiseBuf){noiseBuf=AC.createBuffer(1,AC.sampleRate,AC.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+  const n=AC.createBufferSource(), f=AC.createBiquadFilter(), g=AC.createGain();
+  n.buffer=noiseBuf; f.type=type||'bandpass'; f.frequency.value=freq||6000; f.Q.value=.8;
+  g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  n.connect(f); f.connect(g); g.connect(bus||musicBus); n.start(t,Math.random()*.5); n.stop(t+dur+.02);
 }
-// свой медленный ход аккордов: Dm – B♭ – F – C/E, с низкой педалью
+// свой ход аккордов в фа мажоре: Fmaj7 – Am7 – Dm7 – B♭maj7 – Gm7 – C
 const PROG=[
-  {bass:73.42, chord:[293.66,349.23,440], arp:[440,587.33,523.25,587.33]},
-  {bass:58.27, chord:[233.08,293.66,349.23], arp:[349.23,466.16,440,466.16]},
-  {bass:87.31, chord:[261.63,349.23,440], arp:[440,523.25,698.46,523.25]},
-  {bass:82.41, chord:[261.63,329.63,392], arp:[392,523.25,659.25,523.25]},
+  {root:41, chord:[53,57,60,64]}, {root:45, chord:[52,55,57,60]},
+  {root:38, chord:[50,53,57,60]}, {root:46, chord:[50,53,58,62]},
+  {root:43, chord:[50,53,55,58]}, {root:48, chord:[52,55,60,64]},
 ];
-function phrase(){
+const SCALE=[65,67,69,70,72,74,76,77,79,81]; // фа мажор для мелодии
+const RHYTHMS=[[0,1,2,2.5,3],[0,1.5,2,3],[0.5,1,2,3.5],[0,2,2.5],[0,0.5,1,2,3],[1,1.5,2.5,3]];
+let lastNote=72;
+const BEAT=60/76, BAR=BEAT*4;
+function playBar(){
   if(!musicOn) return;
-  const t=AC.currentTime+.05, p=PROG[step%PROG.length], len=10;
-  pipe(p.bass,t,len+1,.07,3);                         // педаль органа
-  p.chord.forEach(f=>pipe(f,t+.3,len+.5,.035,3.5));    // медленно нарастающий аккорд
-  if(step>=2){                                         // со второго круга добавляется тихая пульсация
-    for(let i=0;i<16;i++) tone(p.arp[i%4],t+1+i*.55,1.1,.022);
+  const t=nextBar, p=PROG[barN%PROG.length], hum=()=>(Math.random()-.5)*.025;
+  pad(p.chord.map(midi),t,BAR,.018);
+  bass(midi(p.root),t,BEAT*1.8,.11); bass(midi(p.root+7),t+BEAT*2,BEAT*1.6,.07);
+  if(barN>=1){ // мелодия: плавно гуляет по нотам аккорда и гаммы
+    const rh=RHYTHMS[Math.floor(Math.random()*RHYTHMS.length)];
+    const tones=p.chord.map(n=>n+12);
+    rh.forEach((b,i)=>{
+      let cand=SCALE.filter(n=>Math.abs(n-lastNote)<=4);
+      if(i===0||Math.random()<.5) cand=cand.filter(n=>tones.some(c=>(c-n)%12===0)).concat(cand.length?[]:SCALE);
+      const n=cand.length?cand[Math.floor(Math.random()*cand.length)]:72; lastNote=n;
+      piano(midi(n),t+b*BEAT+hum(),.06*(.75+Math.random()*.4),BEAT*2.4);
+    });
   }
-  step++; loopT=setTimeout(phrase,len*1000);
+  if(barN%2===0) piano(midi(p.chord[0]+12),t+hum(),.035,BEAT*3); // мягкий аккордовый удар
+  if(barN>=2){ // лёгкий шейкер и мягкий пульс
+    for(let i=0;i<8;i++) noise(t+i*BEAT/2+hum(),.06,i%2?.012:.006,7000,'highpass');
+    noise(t,.25,.05,90,'lowpass'); noise(t+BEAT*2,.25,.035,90,'lowpass');
+  }
+  if(Math.random()<.35) piano(midi(84+[0,4,7][Math.floor(Math.random()*3)]),t+BEAT*3.5,.02,BEAT*3); // искорка-колокольчик
+  barN++; nextBar+=BAR;
+  barT=setTimeout(playBar,Math.max(0,(nextBar-AC.currentTime-.4)*1000));
 }
-function chime(){ if(!musicOn||!AC) return; const t=AC.currentTime; tone(880,t,1.6,.05); tone(1174.66,t+.15,1.8,.04) }
+
+/* ---------- звуки сайта ---------- */
+const sfx={
+  ok:()=>AC&&musicOn,
+  click(){ if(!this.ok())return; const t=AC.currentTime; piano(midi(79),t,.05,.25,sfxBus); noise(t,.03,.03,3000,'bandpass',sfxBus) },
+  hover(){ if(!this.ok())return; noise(AC.currentTime,.03,.012,5000,'bandpass',sfxBus) },
+  chapter(){ if(!this.ok())return; const t=AC.currentTime, p=PROG[(barN+5)%PROG.length];
+    noise(t,.5,.02,1200,'bandpass',sfxBus);
+    piano(midi(p.chord[2]+12),t+.05,.04,1.6,sfxBus); piano(midi(p.chord[3]+12),t+.16,.035,1.6,sfxBus) },
+  secret(){ if(!this.ok())return; const t=AC.currentTime; [76,79,84,88].forEach((m,i)=>piano(midi(m),t+i*.08,.07,1.4,sfxBus)) },
+  idea(){ if(!this.ok())return; const t=AC.currentTime; for(let i=0;i<5;i++) piano(midi(pick([72,74,76,79,81,84])),t+i*.06,.045,.6,sfxBus) },
+  place(n){ if(!this.ok())return; const t=AC.currentTime; piano(NOTES[n%NOTES.length],t,.08,.7,sfxBus); noise(t,.05,.04,400,'lowpass',sfxBus) },
+  cut(){ if(!this.ok())return; noise(AC.currentTime,.12,.05,600,'lowpass',sfxBus) },
+  over(){ if(!this.ok())return; const t=AC.currentTime; [72,67,64,60].forEach((m,i)=>piano(midi(m),t+i*.14,.06,.9,sfxBus)) },
+  win(){ if(!this.ok())return; const t=AC.currentTime; [65,69,72,77,81].forEach((m,i)=>piano(midi(m),t+i*.1,.07,1.6,sfxBus)) },
+  on(){ const t=AC.currentTime; [60,64,67,72].forEach((m,i)=>piano(midi(m),t+i*.09,.06,1.2,sfxBus)) }
+};
+function chime(){ sfx.secret() }
+function tone(freq,t,dur,vol){ if(AC) piano(freq,t,vol,dur,sfxBus) }
+
+document.addEventListener('click',e=>{ if(e.target.closest('a,button:not(#music):not(#genBtn)')) sfx.click() });
+if(matchMedia('(hover:hover)').matches) document.querySelectorAll('.btn,.chip').forEach(el=>el.addEventListener('pointerenter',()=>sfx.hover()));
+const chObs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting && musicOn && !e.target._heard){ e.target._heard=true; sfx.chapter() } }),{threshold:.6});
+document.querySelectorAll('.ch').forEach(c=>chObs.observe(c));
+
 const mBtn=document.getElementById('music'), mLabel=document.getElementById('musicLabel');
 mBtn.addEventListener('click',()=>{
   if(!AC) initAudio();
-  musicOn=!musicOn; mBtn.setAttribute('aria-pressed',musicOn); mLabel.textContent=musicOn?'Музыка вкл':'Музыка';
-  const now=AC.currentTime;
-  master.gain.cancelScheduledValues(now); master.gain.setValueAtTime(master.gain.value,now);
-  if(musicOn){AC.resume(); step=0; master.gain.linearRampToValueAtTime(1,now+4); phrase(); setTimeout(tick,2500); track('music-on')}
-  else{clearTimeout(loopT); clearTimeout(tickT); master.gain.linearRampToValueAtTime(0,now+1.5)}
+  musicOn=!musicOn; mBtn.setAttribute('aria-pressed',musicOn); mLabel.textContent=musicOn?'Звук вкл':'Звук';
+  const now=AC.currentTime; musicBus.gain.cancelScheduledValues(now); musicBus.gain.setValueAtTime(musicBus.gain.value,now);
+  if(musicOn){ AC.resume(); sfx.on(); musicBus.gain.linearRampToValueAtTime(1.5,now+3); barN=0; nextBar=now+.6; playBar(); track('music-on');
+    document.querySelectorAll('.ch').forEach(c=>{const r=c.getBoundingClientRect(); if(r.top<innerHeight*.4&&r.bottom>innerHeight*.6) c._heard=true}); }
+  else{ clearTimeout(barT); musicBus.gain.linearRampToValueAtTime(0,now+1.2) }
 });
 
 /* ---------- вызов дня ---------- */
@@ -499,7 +562,7 @@ renderDaily();
 function completeDaily(){
   if(streak.last===dayKey) return;
   streak={last:dayKey,count:(streak.last===yKey?streak.count:0)+1};
-  store.set('streak',streak); track('daily-complete'); renderDaily(); toast('<svg class="ic"><use href="#i-flame"/></svg> Вызов дня выполнен! Серия: '+streak.count); chime();
+  store.set('streak',streak); track('daily-complete'); renderDaily(); toast('<svg class="ic"><use href="#i-flame"/></svg> Вызов дня выполнен! Серия: '+streak.count); sfx.win();
 }
 
 /* ---------- мини-игра ---------- */
@@ -529,12 +592,12 @@ function completeDaily(){
     if(cur.x+cur.w>r) falling.push({x:r,w:cur.x+cur.w-r,c:cur.c,y:yOf(stack.length),vy:0});
     stack.push({x:l,w:r-l,c:cur.c});
     const n=stack.length-1; scEl.textContent=n+' '+word(n);
-    if(musicOn&&AC) tone(NOTES[n%NOTES.length],AC.currentTime,0.6,0.05,'sine');
+    sfx.place(n); if(cur.x<l||cur.x+cur.w>r) sfx.cut();
     if(n>=GOAL && !reached){reached=true;completeDaily()}
     speed=Math.min(6,speed+0.15); newLayer();
   }
   function gameOver(){
-    state='over'; const n=stack.length-1;
+    state='over'; const n=stack.length-1; sfx.over();
     track('mini-over-'+(n<5?'0-4':n<10?'5-9':n<20?'10-19':'20plus'));
     if(n>best){best=n;store.set('tower-best',best);showBest()}
     const msg=n>=GOAL?'Цель дня выполнена! Завтра будет новая.':'До цели '+(GOAL-n)+' '+word(GOAL-n)+'. Нажми, чтобы ещё раз.';
