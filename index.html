@@ -22,11 +22,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;700;900&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <!-- Счётчик посещений GoatCounter: замените misterandreos на свой код, если он другой -->
 <script data-goatcounter="https://misterandreos.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <style>
   :root{
-    --bg:#f5f6fb; --bg2:#ffffff; --ink:#1e2140; --muted:#5d6080; --line:#1e2140;
+    --bg:#f5f6fb; --bg2:#ffffff; --ink:#1e2140; --muted:#5d6080; --line:#1e2140; --card:#ffffff; --on-ink:#ffffff; --glass:rgba(255,255,255,.85); --rule:rgba(30,33,64,.3);
     --sun:#f2b705; --code:#1fa463; --sea:#1c9cc0; --soft:#e7e9f5; --gold:#e8a800;
   }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1120; --bg2:#151829; --ink:#e9eaf6; --muted:#a3a6c4; --line:#dfe2f5; --sun:#f7c948; --code:#4cd88a; --sea:#5fcbe9; --soft:#2a2e4a; --gold:#f2b705; --card:#1b1f36; --on-ink:#12142a; --glass:rgba(27,31,54,.85); --rule:rgba(233,234,246,.25);}}
+  :root[data-theme="dark"]{--bg:#0f1120; --bg2:#151829; --ink:#e9eaf6; --muted:#a3a6c4; --line:#dfe2f5; --sun:#f7c948; --code:#4cd88a; --sea:#5fcbe9; --soft:#2a2e4a; --gold:#f2b705; --card:#1b1f36; --on-ink:#12142a; --glass:rgba(27,31,54,.85); --rule:rgba(233,234,246,.25);}
+  html{color-scheme:light}:root[data-theme="dark"]{color-scheme:dark}
+  body{transition:background-color .4s,color .4s}
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{background:var(--bg);color:var(--ink);font-family:"Golos Text",system-ui,sans-serif;line-height:1.55;font-size:18px;overflow-x:hidden}
@@ -35,21 +40,21 @@
   :focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:8px}
 
   /* fixed chrome */
-  .topfade{position:fixed;top:0;left:0;right:0;height:76px;z-index:4;pointer-events:none;background:linear-gradient(var(--bg) 45%,rgba(245,246,251,0))}
+  .topfade{position:fixed;top:0;left:0;right:0;height:76px;z-index:4;pointer-events:none;background:linear-gradient(var(--bg) 45%,transparent)}
   .brand{position:fixed;top:18px;left:18px;z-index:5;font-weight:700;font-size:14px;line-height:1.1}
   .brand span{display:block;font-weight:400;color:var(--muted);font-size:12px}
   .tools{position:fixed;top:14px;right:14px;z-index:5;display:flex;gap:8px}
-  .chip{font-size:14px;font-weight:500;padding:8px 13px;border:1px solid var(--ink);border-radius:99px;background:rgba(255,255,255,.85);backdrop-filter:blur(6px);display:flex;align-items:center;gap:6px}
-  .chip[aria-pressed="true"]{background:var(--ink);color:#fff}
+  .chip{font-size:14px;font-weight:500;padding:8px 13px;border:1px solid var(--ink);border-radius:99px;background:var(--glass);backdrop-filter:blur(6px);display:flex;align-items:center;gap:6px}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--on-ink)}
   .eq{display:inline-flex;gap:2px;align-items:flex-end;height:12px}
   .eq i{width:3px;height:4px;background:currentColor;border-radius:2px}
   .chip[aria-pressed="true"] .eq i{animation:eq 1s ease-in-out infinite}
   .chip[aria-pressed="true"] .eq i:nth-child(2){animation-delay:.2s}.chip[aria-pressed="true"] .eq i:nth-child(3){animation-delay:.4s}
   @keyframes eq{50%{height:12px}}
-  .secrets{position:fixed;left:14px;bottom:16px;z-index:5;font-size:14px;font-weight:500;padding:8px 13px;border-radius:99px;background:#fff;border:1px dashed var(--ink)}
+  .secrets{position:fixed;left:14px;bottom:16px;z-index:5;font-size:14px;font-weight:500;padding:8px 13px;border-radius:99px;background:var(--card);border:1px dashed var(--ink)}
   .secrets b{font-weight:900}
   .progress{position:fixed;left:0;bottom:0;height:3px;background:var(--sun);width:0;z-index:6}
-  .toast{position:fixed;left:50%;bottom:64px;transform:translate(-50%,20px);opacity:0;z-index:7;background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-weight:500;font-size:15px;max-width:90vw;text-align:center;transition:.35s;pointer-events:none}
+  .toast{position:fixed;left:50%;bottom:64px;transform:translate(-50%,20px);opacity:0;z-index:7;background:var(--ink);color:var(--on-ink);padding:12px 18px;border-radius:14px;font-weight:500;font-size:15px;max-width:90vw;text-align:center;transition:.35s;pointer-events:none}
   .toast.on{opacity:1;transform:translate(-50%,0)}
 
   /* chapters */
@@ -77,47 +82,50 @@
   @keyframes nudge{50%{transform:translateY(6px)}}
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .8s ease,transform .8s ease}
   .reveal.on{opacity:1;transform:none}
-  .btn{display:inline-block;margin-top:20px;font-weight:700;padding:13px 20px;border-radius:12px;background:var(--ink);color:#fff;border:0}
+  .btn{display:inline-block;margin-top:20px;font-weight:700;padding:13px 20px;border-radius:12px;background:var(--ink);color:var(--on-ink);border:0}
   .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink);margin-left:8px}
   .tag{display:inline-block;margin-top:12px;font-size:13px;color:var(--ink);border:1px dashed var(--ink);padding:3px 10px;border-radius:99px}
-  .bubble{position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%) scale(.8);opacity:0;background:var(--ink);color:#fff;font-size:14px;padding:8px 12px;border-radius:12px;white-space:nowrap;transition:.3s;pointer-events:none}
+  .bubble{position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%) scale(.8);opacity:0;background:var(--ink);color:var(--on-ink);font-size:14px;padding:8px 12px;border-radius:12px;white-space:nowrap;transition:.3s;pointer-events:none}
   .bubble.on{opacity:1;transform:translate(-50%,-100%) scale(1)}
   .lit .glow{fill:rgba(242,183,5,.25)!important}
 
   /* idea generator */
-  .gen{margin-top:20px;width:100%;max-width:400px;border:1px dashed var(--ink);border-radius:18px;padding:16px;background:#fff;text-align:left}
+  .gen{margin-top:20px;width:100%;max-width:400px;border:1px dashed var(--ink);border-radius:18px;padding:16px;background:var(--card);text-align:left}
   .gen small{color:var(--muted);font-size:13px}
   .gen p.idea{font-family:Caveat,cursive;font-size:28px;line-height:1.15;color:var(--ink);margin:6px 0 12px;max-width:none;min-height:66px}
   .gen .row{display:flex;gap:8px;flex-wrap:wrap}
   .gen .btn{margin-top:0;padding:10px 14px;font-size:15px}
 
   /* play */
-  .daily{display:flex;gap:12px;align-items:center;justify-content:space-between;width:100%;max-width:420px;padding:14px 16px;border:1px dashed var(--ink);border-radius:16px;text-align:left;background:#fff}
+  .daily{display:flex;gap:12px;align-items:center;justify-content:space-between;width:100%;max-width:420px;padding:14px 16px;border:1px dashed var(--ink);border-radius:16px;text-align:left;background:var(--card)}
   .daily small{display:block;color:var(--muted);font-size:13px}
   .daily b{font-size:18px}
   .daily .done{color:var(--code)}
   .stage{position:relative;width:100%;max-width:420px;border-radius:18px;overflow:hidden;border:1px solid var(--ink);background:linear-gradient(#bfe6fb,#eef8fe)}
   canvas{display:block;width:100%;height:auto;touch-action:manipulation;cursor:pointer}
   .hud{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;font-size:13px;font-weight:700;pointer-events:none}
-  .hud span{background:#fff;padding:3px 10px;border-radius:99px}
+  .hud span{background:#fff;color:#1e2140;padding:3px 10px;border-radius:99px}
   .overlay{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
-  .overlay div{background:#fff;border:1px solid var(--ink);border-radius:14px;padding:14px 18px;font-weight:700;max-width:80%;text-align:center}
-  .overlay small{display:block;font-weight:400;color:var(--muted);font-size:14px;margin-top:4px}
+  .overlay div{background:#fff;color:#1e2140;border:1px solid #1e2140;border-radius:14px;padding:14px 18px;font-weight:700;max-width:80%;text-align:center}
+  .overlay small{display:block;font-weight:400;color:#5d6080;font-size:14px;margin-top:4px}
   .overlay[hidden]{display:none}
+  :root[data-theme="dark"] .stage{background:linear-gradient(#2a3a6e,#121a33)}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stage{background:linear-gradient(#2a3a6e,#121a33)}}
   .stats{display:flex;gap:10px;width:100%;max-width:420px}
-  .stats div{flex:1;border:1px solid var(--soft);background:#fff;border-radius:14px;padding:10px 14px;text-align:left}
+  .stats div{flex:1;border:1px solid var(--soft);background:var(--card);border-radius:14px;padding:10px 14px;text-align:left}
   .stats b{display:block;font-size:28px;font-weight:900;line-height:1.1}
   .stats span{font-size:13px;color:var(--muted)}
   .goldnote{font-size:14px;color:var(--gold);font-weight:700}
 
   .svc{list-style:none;margin-top:16px;text-align:left;max-width:360px}
-  .svc li{padding:10px 0;border-bottom:1px dashed rgba(30,33,64,.3)}
+  .svc li{padding:10px 0;border-bottom:1px dashed var(--rule)}
   .ic{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.25em;flex:none}
   .svc li{display:flex;gap:10px;align-items:flex-start}
   .svc li .ic{color:var(--sea);margin-top:.15em}
   .secrets .ic{color:var(--ink)}
   .goldnote .ic,.toast .ic{color:var(--sun)}
   .done .ic{color:var(--code)}
+  @media (max-width:480px){#themeLabel{display:none}.brand span{display:none}.brand{top:24px}.tools{gap:6px;right:10px}.chip{padding:8px 11px}}
   footer{padding:30px 20px 70px;text-align:center;color:var(--muted);font-size:14px}
   footer a{color:var(--ink);margin:0 8px}
 
@@ -137,12 +145,16 @@
   <symbol id="i-game" viewBox="0 0 24 24"><path d="M7 8 H17 C19.8 8 21.5 10.5 21 13.5 L20.4 16.5 C20 18.6 17.6 19.2 16.3 17.6 L14.8 15.8 H9.2 L7.7 17.6 C6.4 19.2 4 18.6 3.6 16.5 L3 13.5 C2.5 10.5 4.2 8 7 8 Z"/><path d="M7.5 11 V14"/><path d="M6 12.5 H9"/><circle cx="16" cy="12" r=".9"/><circle cx="17.5" cy="13.8" r=".9"/></symbol>
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3 L13.8 10.2 L21 12 L13.8 13.8 L12 21 L10.2 13.8 L3 12 L10.2 10.2 Z"/></symbol>
   <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 21 C7.5 21 5.5 17.8 5.5 15 C5.5 11 9 9.5 9.5 5.5 C12.5 7.5 13 10 12.5 12 C14 11.5 15 10 15.2 8.5 C17.5 10.5 18.5 13 18.5 15 C18.5 18 16.3 21 12 21 Z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5V5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19C5 10 10 5 20 4c-1 10-6 15-15 15Z"/><path d="M5 19 13 11"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7"/></symbol>
 </svg>
 <div class="topfade"></div>
 <a class="brand" href="#top">Andreos<span>игры, приложения, AI</span></a>
 <div class="tools">
-  <button class="chip" id="music" type="button" aria-pressed="false" aria-label="Музыка и звуки сайта"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="musicLabel">Звук</span></button>
+  <button class="chip" id="themeBtn" type="button" aria-label="Тема сайта"><svg class="ic"><use id="themeIco" href="#i-moon"/></svg><span id="themeLabel">Тёмная</span></button>
+  <button class="chip" id="music" type="button" aria-pressed="false" aria-label="Музыка и звуки сайта"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><svg class="ic" style="margin-left:-2px"><use href="#i-leaf"/></svg><span id="musicLabel">Природа</span></button>
   <a class="chip" data-track="top-dm" href="https://ig.me/m/misterandreos">Написать</a>
 </div>
 <div class="secrets" id="secrets" title="Нажимай на рисунки, чтобы найти секреты"><svg class="ic"><use href="#i-search"/></svg> Секреты <b id="secN">0</b>/3</div>
@@ -160,7 +172,7 @@
       <div class="txt reveal">
         <h1>Идеи, которые оживают</h1>
         <p>Я Andreos. С помощью ИИ превращаю идеи в игры, приложения, сайты и AI-агентов. Листай историю, ищи 3 спрятанных секрета, а в конце тебя ждёт игра с наградой.</p>
-        <div class="hint">включи звук и листай вниз <i>↓</i></div>
+        <div class="hint">включи звуки природы и листай вниз <i>↓</i></div>
       </div>
     </div>
   </section>
@@ -378,8 +390,16 @@
 <footer>Andreos, 2026 <a href="https://www.instagram.com/misterandreos/">Instagram</a><a href="https://www.threads.net/@misterandreos">Threads</a></footer>
 
 <script>
+/* ---------- светлая / тёмная тема ---------- */
+(()=>{const root=document.documentElement, btn=document.getElementById('themeBtn'), ico=document.getElementById('themeIco'), lab=document.getElementById('themeLabel'), meta=document.querySelector('meta[name="theme-color"]');
+  const sys=()=>matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  let saved=null; try{saved=localStorage.getItem('theme')}catch(e){}
+  function apply(t){root.setAttribute('data-theme',t); const d=t==='dark'; ico.setAttribute('href',d?'#i-sun':'#i-moon'); lab.textContent=d?'Светлая':'Тёмная'; if(meta)meta.setAttribute('content',d?'#0f1120':'#f5f6fb'); window.__theme=t}
+  apply(saved||sys());
+  btn.addEventListener('click',()=>{const t=root.getAttribute('data-theme')==='dark'?'light':'dark'; apply(t); try{localStorage.setItem('theme',t)}catch(e){} track('theme-'+t); if(window.onThemeChange)window.onThemeChange(t)});
+})();
 /* ---------- ссылка на игру про кимчи: вставьте адрес игры в кавычки ---------- */
-const KIMCHI_URL = '';
+const KIMCHI_URL = 'https://aasolo.github.io/kimchi-gleba/';
 (()=>{const b=document.getElementById('kimchiPlay'); if(KIMCHI_URL){b.href=KIMCHI_URL+(KIMCHI_URL.includes('?')?'&':'?')+'from=site'} else {b.textContent='Скоро'; b.removeAttribute('href'); b.style.opacity=.55; b.style.cursor='default'}})();
 function track(name){ try{ if(window.goatcounter && goatcounter.count) goatcounter.count({path:name,title:name,event:true}) }catch(e){} }
 document.addEventListener('click',e=>{const a=e.target.closest('[data-track]'); if(a) track(a.dataset.track)});
@@ -446,112 +466,93 @@ document.getElementById('genBtn').addEventListener('click',()=>{
   if(!reduce) ideaEl.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:300});
 });
 
-/* ---------- звук: спокойная живая музыка + звуки сайта (всё создаётся в браузере, без файлов) ---------- */
-let AC=null, master=null, musicBus=null, sfxBus=null, musicOn=false, barT=null, nextBar=0, barN=0;
+/* ---------- звуки природы (всё создаётся в браузере, без файлов) ----------
+   Днём (светлая тема): ветер, ручей и птицы. Ночью (тёмная тема): ветер, сверчки и изредка сова. */
+let AC=null, master=null, ambBus=null, sfxBus=null, verb=null, musicOn=false, natT=[], natNodes=[];
 const midi=m=>440*Math.pow(2,(m-69)/12);
-const NOTES=[60,62,64,67,69,72,74,76,79,81].map(midi); // пентатоника для звуков игры
-function makeImpulse(sec,decay){
-  const len=AC.sampleRate*sec, buf=AC.createBuffer(2,len,AC.sampleRate);
-  for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay)}
-  return buf;
+const NOTES=[60,62,64,67,69,72,74,76,79,81].map(midi);
+const rnd=(a,b)=>a+Math.random()*(b-a);
+let whiteBuf=null, brownBuf=null;
+function makeBuffers(){
+  const n=AC.sampleRate*4; whiteBuf=AC.createBuffer(1,n,AC.sampleRate); brownBuf=AC.createBuffer(1,n,AC.sampleRate);
+  const w=whiteBuf.getChannelData(0), br=brownBuf.getChannelData(0); let last=0;
+  for(let i=0;i<n;i++){const x=Math.random()*2-1; w[i]=x; last=(last+0.02*x)/1.02; br[i]=last*3.5}
 }
+function makeImpulse(sec,decay){const len=AC.sampleRate*sec,buf=AC.createBuffer(2,len,AC.sampleRate);for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay)}return buf}
 function initAudio(){
-  AC=new (window.AudioContext||window.webkitAudioContext)();
+  AC=new (window.AudioContext||window.webkitAudioContext)(); makeBuffers();
   master=AC.createGain(); master.gain.value=1;
-  const comp=AC.createDynamicsCompressor(); comp.threshold.value=-18; comp.ratio.value=3;
-  const verb=AC.createConvolver(); verb.buffer=makeImpulse(3.2,3);
-  const wet=AC.createGain(); wet.gain.value=.32;
-  musicBus=AC.createGain(); musicBus.gain.value=0;
-  sfxBus=AC.createGain(); sfxBus.gain.value=.9;
-  musicBus.connect(master); sfxBus.connect(master);
-  master.connect(comp); comp.connect(AC.destination);
-  master.connect(verb); verb.connect(wet); wet.connect(AC.destination);
+  const comp=AC.createDynamicsCompressor(); comp.threshold.value=-16; comp.ratio.value=3;
+  verb=AC.createConvolver(); verb.buffer=makeImpulse(2.4,3.2); const wet=AC.createGain(); wet.gain.value=.28;
+  ambBus=AC.createGain(); ambBus.gain.value=0; sfxBus=AC.createGain(); sfxBus.gain.value=.9;
+  ambBus.connect(master); sfxBus.connect(master); master.connect(comp); comp.connect(AC.destination); master.connect(verb); verb.connect(wet); wet.connect(AC.destination);
 }
-// мягкое «войлочное» пианино
-function piano(freq,t,vol,dur,bus){
-  const g=AC.createGain(), lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=1800+freq*.8;
-  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.008); g.gain.exponentialRampToValueAtTime(vol*.35,t+.35); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-  [[1,1,'triangle'],[2,.28,'sine'],[3,.08,'sine']].forEach(([h,a,type])=>{
-    const o=AC.createOscillator(), og=AC.createGain(); o.type=type; o.frequency.value=freq*h; o.detune.value=(Math.random()-.5)*4;
-    og.gain.value=a; o.connect(og); og.connect(lp); o.start(t); o.stop(t+dur+.05);
-  });
-  lp.connect(g); g.connect(bus||musicBus);
-}
-// тёплый фон-«подушка»
-function pad(freqs,t,dur,vol){
-  const g=AC.createGain(), lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=900; lp.Q.value=.3;
-  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+1.6); g.gain.setValueAtTime(vol,t+dur-1.2); g.gain.linearRampToValueAtTime(0,t+dur+.4);
-  freqs.forEach(f=>[-7,7].forEach(dt=>{const o=AC.createOscillator(); o.type='triangle'; o.frequency.value=f; o.detune.value=dt; o.connect(lp); o.start(t); o.stop(t+dur+.5)}));
-  lp.connect(g); g.connect(musicBus);
-}
-function bass(freq,t,dur,vol){
-  const o=AC.createOscillator(), g=AC.createGain(); o.type='sine'; o.frequency.value=freq;
-  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.04); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-  o.connect(g); g.connect(musicBus); o.start(t); o.stop(t+dur+.05);
-}
-let noiseBuf=null;
-function noise(t,dur,vol,freq,type,bus){
-  if(!noiseBuf){noiseBuf=AC.createBuffer(1,AC.sampleRate,AC.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
-  const n=AC.createBufferSource(), f=AC.createBiquadFilter(), g=AC.createGain();
-  n.buffer=noiseBuf; f.type=type||'bandpass'; f.frequency.value=freq||6000; f.Q.value=.8;
-  g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-  n.connect(f); f.connect(g); g.connect(bus||musicBus); n.start(t,Math.random()*.5); n.stop(t+dur+.02);
-}
-// свой ход аккордов в фа мажоре: Fmaj7 – Am7 – Dm7 – B♭maj7 – Gm7 – C
-const PROG=[
-  {root:41, chord:[53,57,60,64]}, {root:45, chord:[52,55,57,60]},
-  {root:38, chord:[50,53,57,60]}, {root:46, chord:[50,53,58,62]},
-  {root:43, chord:[50,53,55,58]}, {root:48, chord:[52,55,60,64]},
-];
-const SCALE=[65,67,69,70,72,74,76,77,79,81]; // фа мажор для мелодии
-const RHYTHMS=[[0,1,2,2.5,3],[0,1.5,2,3],[0.5,1,2,3.5],[0,2,2.5],[0,0.5,1,2,3],[1,1.5,2.5,3]];
-let lastNote=72;
-const BEAT=60/76, BAR=BEAT*4;
-function playBar(){
-  if(!musicOn) return;
-  const t=nextBar, p=PROG[barN%PROG.length], hum=()=>(Math.random()-.5)*.025;
-  pad(p.chord.map(midi),t,BAR,.018);
-  bass(midi(p.root),t,BEAT*1.8,.11); bass(midi(p.root+7),t+BEAT*2,BEAT*1.6,.07);
-  if(barN>=1){ // мелодия: плавно гуляет по нотам аккорда и гаммы
-    const rh=RHYTHMS[Math.floor(Math.random()*RHYTHMS.length)];
-    const tones=p.chord.map(n=>n+12);
-    rh.forEach((b,i)=>{
-      let cand=SCALE.filter(n=>Math.abs(n-lastNote)<=4);
-      if(i===0||Math.random()<.5) cand=cand.filter(n=>tones.some(c=>(c-n)%12===0)).concat(cand.length?[]:SCALE);
-      const n=cand.length?cand[Math.floor(Math.random()*cand.length)]:72; lastNote=n;
-      piano(midi(n),t+b*BEAT+hum(),.06*(.75+Math.random()*.4),BEAT*2.4);
-    });
+function pan(node,p){ if(AC.createStereoPanner){const sp=AC.createStereoPanner(); sp.pan.value=p; node.connect(sp); return sp} return node }
+function loopNoise(buf){const s=AC.createBufferSource(); s.buffer=buf; s.loop=true; s.start(0,Math.random()*3); natNodes.push(s); return s}
+// медленно «дышащий» параметр
+function wander(param,lo,hi,every){const step=()=>{ if(!musicOn)return; param.linearRampToValueAtTime(rnd(lo,hi),AC.currentTime+every); natT.push(setTimeout(step,every*1000)) }; step()}
+function startAmbience(mode){
+  stopAmbience(true);
+  // ветер
+  const w=loopNoise(brownBuf), wl=AC.createBiquadFilter(), wg=AC.createGain();
+  wl.type='lowpass'; wl.frequency.value=500; wg.gain.value=mode==='night'?.16:.22;
+  w.connect(wl); wl.connect(wg); wg.connect(ambBus); wander(wl.frequency,250,900,3.5); wander(wg.gain,mode==='night'?.08:.12,mode==='night'?.2:.3,4.5);
+  if(mode==='day'){
+    // ручей: шум с «бульканьем»
+    const r=loopNoise(whiteBuf), bp=AC.createBiquadFilter(), lp=AC.createBiquadFilter(), rg=AC.createGain();
+    bp.type='bandpass'; bp.frequency.value=1600; bp.Q.value=.7; lp.type='lowpass'; lp.frequency.value=3500; rg.gain.value=.05;
+    r.connect(bp); bp.connect(lp); lp.connect(rg); rg.connect(pan(ambBus,-.35));
+    const bub=()=>{ if(!musicOn)return; const t=AC.currentTime; bp.frequency.setValueAtTime(rnd(900,2600),t); rg.gain.setTargetAtTime(rnd(.03,.07),t,.05); natT.push(setTimeout(bub,rnd(60,180))) }; bub();
+    const birds=()=>{ if(!musicOn)return; bird(AC.currentTime+.05,rnd(-.8,.8),Math.random()<.3?'long':'short'); natT.push(setTimeout(birds,rnd(1800,6000))) }; natT.push(setTimeout(birds,900));
+  } else {
+    const crick=()=>{ if(!musicOn)return; cricket(AC.currentTime+.02,rnd(-.7,.7)); natT.push(setTimeout(crick,rnd(500,1400))) }; crick();
+    const owl=()=>{ if(!musicOn)return; hoot(AC.currentTime+.05); natT.push(setTimeout(owl,rnd(12000,22000))) }; natT.push(setTimeout(owl,4000));
   }
-  if(barN%2===0) piano(midi(p.chord[0]+12),t+hum(),.035,BEAT*3); // мягкий аккордовый удар
-  if(barN>=2){ // лёгкий шейкер и мягкий пульс
-    for(let i=0;i<8;i++) noise(t+i*BEAT/2+hum(),.06,i%2?.012:.006,7000,'highpass');
-    noise(t,.25,.05,90,'lowpass'); noise(t+BEAT*2,.25,.035,90,'lowpass');
-  }
-  if(Math.random()<.35) piano(midi(84+[0,4,7][Math.floor(Math.random()*3)]),t+BEAT*3.5,.02,BEAT*3); // искорка-колокольчик
-  barN++; nextBar+=BAR;
-  barT=setTimeout(playBar,Math.max(0,(nextBar-AC.currentTime-.4)*1000));
 }
+function stopAmbience(quick){ natT.forEach(clearTimeout); natT=[]; const ns=natNodes; natNodes=[]; ns.forEach(n=>{try{n.stop(AC.currentTime+(quick?.05:1.6))}catch(e){}}) }
+// голоса природы
+function chirpNote(t,f1,f2,d,v,bus,p){const o=AC.createOscillator(),g=AC.createGain(); o.type='sine'; o.frequency.setValueAtTime(f1,t); o.frequency.exponentialRampToValueAtTime(f2,t+d);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+d*.2); g.gain.exponentialRampToValueAtTime(.0001,t+d); o.connect(g); g.connect(pan(bus||ambBus,p||0)); o.start(t); o.stop(t+d+.02)}
+function bird(t,p,kind,bus,vol){ const base=rnd(2600,4200), v=vol||.05, n=kind==='long'?Math.floor(rnd(5,9)):Math.floor(rnd(2,4));
+  for(let i=0;i<n;i++){const tt=t+i*rnd(.07,.13), up=Math.random()<.6; chirpNote(tt,up?base*rnd(.8,1):base*rnd(1.1,1.4),up?base*rnd(1.2,1.5):base*rnd(.7,.9),rnd(.05,.11),v,bus,p)} }
+function cricket(t,p){ const f=rnd(4200,4800), n=Math.floor(rnd(3,6));
+  for(let i=0;i<n;i++){const o=AC.createOscillator(),g=AC.createGain(),tt=t+i*.055; o.type='sine'; o.frequency.value=f; g.gain.setValueAtTime(0,tt); g.gain.linearRampToValueAtTime(.025,tt+.008); g.gain.exponentialRampToValueAtTime(.0001,tt+.04); o.connect(g); g.connect(pan(ambBus,p)); o.start(tt); o.stop(tt+.05)} }
+function hoot(t){ [[0,.5],[.62,.75]].forEach(([d,len])=>{const o=AC.createOscillator(),g=AC.createGain(),lfo=AC.createOscillator(),lg=AC.createGain(),tt=t+d;
+  o.type='sine'; o.frequency.setValueAtTime(380,tt); o.frequency.linearRampToValueAtTime(340,tt+len); lfo.frequency.value=6; lg.gain.value=6; lfo.connect(lg); lg.connect(o.frequency);
+  g.gain.setValueAtTime(0,tt); g.gain.linearRampToValueAtTime(.06,tt+.08); g.gain.exponentialRampToValueAtTime(.0001,tt+len); o.connect(g); g.connect(pan(ambBus,.4)); o.start(tt); lfo.start(tt); o.stop(tt+len+.05); lfo.stop(tt+len+.05)}) }
+function droplet(t,f,v,bus){const o=AC.createOscillator(),g=AC.createGain(); o.type='sine'; o.frequency.setValueAtTime(f,t); o.frequency.exponentialRampToValueAtTime(f*2.2,t+.05);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+.004); g.gain.exponentialRampToValueAtTime(.0001,t+.12); o.connect(g); g.connect(bus||sfxBus); o.start(t); o.stop(t+.15)}
+function rustle(t,d,v,f){const s=AC.createBufferSource(),hp=AC.createBiquadFilter(),g=AC.createGain(); s.buffer=whiteBuf; hp.type='bandpass'; hp.frequency.value=f||5000; hp.Q.value=.6;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+d*.3); g.gain.exponentialRampToValueAtTime(.0001,t+d); s.connect(hp); hp.connect(g); g.connect(sfxBus); s.start(t,Math.random()*3); s.stop(t+d+.02)}
+function gust(t){const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain(); s.buffer=brownBuf; f.type='bandpass'; f.Q.value=1.2; f.frequency.setValueAtTime(250,t); f.frequency.linearRampToValueAtTime(900,t+.6); f.frequency.linearRampToValueAtTime(300,t+1.3);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.35,t+.5); g.gain.exponentialRampToValueAtTime(.0001,t+1.4); s.connect(f); f.connect(g); g.connect(sfxBus); s.start(t,Math.random()*2); s.stop(t+1.5)}
+function wood(t,f,v){const o=AC.createOscillator(),g=AC.createGain(),bp=AC.createBiquadFilter(),s=AC.createBufferSource(),ng=AC.createGain();
+  o.type='triangle'; o.frequency.value=f; g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.0001,t+.18); o.connect(g); g.connect(sfxBus); o.start(t); o.stop(t+.2);
+  s.buffer=whiteBuf; bp.type='bandpass'; bp.frequency.value=f*2.5; bp.Q.value=4; ng.gain.setValueAtTime(v*.8,t); ng.gain.exponentialRampToValueAtTime(.0001,t+.05); s.connect(bp); bp.connect(ng); ng.connect(sfxBus); s.start(t,Math.random()*3); s.stop(t+.06)}
+function windChimes(t,n){const sc=[84,86,88,91,93,96]; for(let i=0;i<n;i++){const f=midi(sc[Math.floor(Math.random()*sc.length)]),tt=t+i*rnd(.08,.2),o=AC.createOscillator(),g=AC.createGain(),o2=AC.createOscillator(),g2=AC.createGain();
+  o.type='sine'; o.frequency.value=f; o2.type='sine'; o2.frequency.value=f*2.76; g.gain.setValueAtTime(0,tt); g.gain.linearRampToValueAtTime(.05,tt+.005); g.gain.exponentialRampToValueAtTime(.0001,tt+1.8);
+  g2.gain.setValueAtTime(0,tt); g2.gain.linearRampToValueAtTime(.015,tt+.005); g2.gain.exponentialRampToValueAtTime(.0001,tt+.6); o.connect(g); o2.connect(g2); g.connect(sfxBus); g2.connect(sfxBus); o.start(tt); o2.start(tt); o.stop(tt+1.9); o2.stop(tt+.7)}}
 
 /* ---------- звуки сайта ---------- */
+const isNight=()=> (window.__theme||document.documentElement.getAttribute('data-theme'))==='dark';
 const sfx={
   ok:()=>AC&&musicOn,
-  click(){ if(!this.ok())return; const t=AC.currentTime; piano(midi(79),t,.05,.25,sfxBus); noise(t,.03,.03,3000,'bandpass',sfxBus) },
-  hover(){ if(!this.ok())return; noise(AC.currentTime,.03,.012,5000,'bandpass',sfxBus) },
-  chapter(){ if(!this.ok())return; const t=AC.currentTime, p=PROG[(barN+5)%PROG.length];
-    noise(t,.5,.02,1200,'bandpass',sfxBus);
-    piano(midi(p.chord[2]+12),t+.05,.04,1.6,sfxBus); piano(midi(p.chord[3]+12),t+.16,.035,1.6,sfxBus) },
-  secret(){ if(!this.ok())return; const t=AC.currentTime; [76,79,84,88].forEach((m,i)=>piano(midi(m),t+i*.08,.07,1.4,sfxBus)) },
-  idea(){ if(!this.ok())return; const t=AC.currentTime; for(let i=0;i<5;i++) piano(midi(pick([72,74,76,79,81,84])),t+i*.06,.045,.6,sfxBus) },
-  place(n){ if(!this.ok())return; const t=AC.currentTime; piano(NOTES[n%NOTES.length],t,.08,.7,sfxBus); noise(t,.05,.04,400,'lowpass',sfxBus) },
-  cut(){ if(!this.ok())return; noise(AC.currentTime,.12,.05,600,'lowpass',sfxBus) },
-  over(){ if(!this.ok())return; const t=AC.currentTime; [72,67,64,60].forEach((m,i)=>piano(midi(m),t+i*.14,.06,.9,sfxBus)) },
-  win(){ if(!this.ok())return; const t=AC.currentTime; [65,69,72,77,81].forEach((m,i)=>piano(midi(m),t+i*.1,.07,1.6,sfxBus)) },
-  on(){ const t=AC.currentTime; [60,64,67,72].forEach((m,i)=>piano(midi(m),t+i*.09,.06,1.2,sfxBus)) }
+  click(){ if(!this.ok())return; droplet(AC.currentTime,rnd(500,800),.12) },
+  hover(){ if(!this.ok())return; rustle(AC.currentTime,.08,.02,6000) },
+  chapter(){ if(!this.ok())return; const t=AC.currentTime; gust(t); if(isNight()) cricket(t+.4,.3); else bird(t+.35,rnd(-.6,.6),'short',sfxBus,.06) },
+  secret(){ if(!this.ok())return; const t=AC.currentTime; bird(t,0,'long',sfxBus,.08); windChimes(t+.2,4) },
+  idea(){ if(!this.ok())return; const t=AC.currentTime; for(let i=0;i<5;i++) droplet(t+i*rnd(.05,.09),rnd(400,1100),.09) },
+  place(n){ if(!this.ok())return; wood(AC.currentTime,320+(n%12)*28,.22) },
+  cut(){ if(!this.ok())return; rustle(AC.currentTime,.25,.06,2500) },
+  over(){ if(!this.ok())return; const t=AC.currentTime; [0,.09,.2,.34].forEach((d,i)=>wood(t+d,300-i*45,.2)); rustle(t,.6,.05,1500) },
+  win(){ if(!this.ok())return; const t=AC.currentTime; windChimes(t,7); bird(t+.3,-.4,'long',sfxBus,.07); bird(t+.9,.4,'long',sfxBus,.06) },
+  on(){ windChimes(AC.currentTime,3) }
 };
 function chime(){ sfx.secret() }
-function tone(freq,t,dur,vol){ if(AC) piano(freq,t,vol,dur,sfxBus) }
+function tone(freq,t,dur,vol){ if(AC) droplet(t,freq,vol) }
+window.onThemeChange=()=>{ if(AC&&musicOn) startAmbience(isNight()?'night':'day') };
 
-document.addEventListener('click',e=>{ if(e.target.closest('a,button:not(#music):not(#genBtn)')) sfx.click() });
+document.addEventListener('click',e=>{ if(e.target.closest('a,button:not(#music):not(#genBtn):not(#themeBtn)')) sfx.click() });
 if(matchMedia('(hover:hover)').matches) document.querySelectorAll('.btn,.chip').forEach(el=>el.addEventListener('pointerenter',()=>sfx.hover()));
 const chObs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting && musicOn && !e.target._heard){ e.target._heard=true; sfx.chapter() } }),{threshold:.6});
 document.querySelectorAll('.ch').forEach(c=>chObs.observe(c));
@@ -559,11 +560,11 @@ document.querySelectorAll('.ch').forEach(c=>chObs.observe(c));
 const mBtn=document.getElementById('music'), mLabel=document.getElementById('musicLabel');
 mBtn.addEventListener('click',()=>{
   if(!AC) initAudio();
-  musicOn=!musicOn; mBtn.setAttribute('aria-pressed',musicOn); mLabel.textContent=musicOn?'Звук вкл':'Звук';
-  const now=AC.currentTime; musicBus.gain.cancelScheduledValues(now); musicBus.gain.setValueAtTime(musicBus.gain.value,now);
-  if(musicOn){ AC.resume(); sfx.on(); musicBus.gain.linearRampToValueAtTime(1.5,now+3); barN=0; nextBar=now+.6; playBar(); track('music-on');
+  musicOn=!musicOn; mBtn.setAttribute('aria-pressed',musicOn); mLabel.textContent=musicOn?'Природа вкл':'Природа';
+  const now=AC.currentTime; ambBus.gain.cancelScheduledValues(now); ambBus.gain.setValueAtTime(ambBus.gain.value,now);
+  if(musicOn){ AC.resume(); sfx.on(); ambBus.gain.linearRampToValueAtTime(1,now+3); startAmbience(isNight()?'night':'day'); track('music-on');
     document.querySelectorAll('.ch').forEach(c=>{const r=c.getBoundingClientRect(); if(r.top<innerHeight*.4&&r.bottom>innerHeight*.6) c._heard=true}); }
-  else{ clearTimeout(barT); musicBus.gain.linearRampToValueAtTime(0,now+1.2) }
+  else{ ambBus.gain.linearRampToValueAtTime(0,now+1.2); stopAmbience(false) }
 });
 
 /* ---------- вызов дня ---------- */
