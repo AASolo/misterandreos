@@ -353,11 +353,34 @@
       </div>
     </div>
   </section>
+
+  <!-- Бонус: игра про кимчи Глеба Ли -->
+  <section class="ch" data-draw id="kimchi">
+    <div class="inner split">
+      <div class="art"><svg viewBox="0 0 200 200" aria-hidden="true">
+        <rect x="36" y="78" width="128" height="92" rx="14"/>
+        <path d="M30 70 L170 70 L166 86 L34 86 Z"/>
+        <path class="sun" d="M52 112 C62 100 74 120 86 108 C98 96 108 122 120 108 C132 96 140 116 150 106"/>
+        <path class="sun" d="M50 136 C64 126 76 146 90 134 C104 122 116 146 128 134 C138 124 146 140 152 132"/>
+        <path class="code" d="M60 152 C74 146 86 158 100 152 C114 146 126 158 140 152"/>
+        <path class="sea" d="M84 50 C84 40 92 36 92 28"/><path class="sea" d="M100 52 C100 42 108 38 108 30"/><path class="sea" d="M116 50 C116 40 124 36 124 28"/>
+      </svg></div>
+      <div class="txt reveal">
+        <div class="num">бонус</div>
+        <h2>Кимчи Глеба Ли</h2>
+        <p>Игра, которую я сделал для Глеба: он готовит настоящее корейское кимчи. Играй, а потом загляни к автору рецепта.</p>
+        <a class="btn" id="kimchiPlay" data-track="card-kimchi" href="#">Играть</a><a class="btn ghost" data-track="kimchi-gleb" href="https://www.instagram.com/hoplalalei/">Кимчи @hoplalalei</a>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>Andreos, 2026 <a href="https://www.instagram.com/misterandreos/">Instagram</a><a href="https://www.threads.net/@misterandreos">Threads</a></footer>
 
 <script>
+/* ---------- ссылка на игру про кимчи: вставьте адрес игры в кавычки ---------- */
+const KIMCHI_URL = '';
+(()=>{const b=document.getElementById('kimchiPlay'); if(KIMCHI_URL){b.href=KIMCHI_URL+(KIMCHI_URL.includes('?')?'&':'?')+'from=site'} else {b.textContent='Скоро'; b.removeAttribute('href'); b.style.opacity=.55; b.style.cursor='default'}})();
 function track(name){ try{ if(window.goatcounter && goatcounter.count) goatcounter.count({path:name,title:name,event:true}) }catch(e){} }
 document.addEventListener('click',e=>{const a=e.target.closest('[data-track]'); if(a) track(a.dataset.track)});
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
