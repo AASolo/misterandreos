@@ -53,7 +53,7 @@
   @keyframes eq{50%{height:12px}}
   .secrets{position:fixed;left:14px;bottom:16px;z-index:5;font-size:14px;font-weight:500;padding:8px 13px;border-radius:99px;background:var(--card);border:1px dashed var(--ink)}
   .secrets b{font-weight:900}
-  .progress{position:fixed;left:0;bottom:0;height:3px;background:var(--sun);width:0;z-index:6}
+  .brand{padding-bottom:7px}.progress{position:absolute;left:0;bottom:0;height:3px;border-radius:3px;background:var(--sun);width:0}
   .toast{position:fixed;left:50%;bottom:64px;transform:translate(-50%,20px);opacity:0;z-index:7;background:var(--ink);color:var(--on-ink);padding:12px 18px;border-radius:14px;font-weight:500;font-size:15px;max-width:90vw;text-align:center;transition:.35s;pointer-events:none}
   .toast.on{opacity:1;transform:translate(-50%,0)}
 
@@ -151,14 +151,13 @@
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7"/></symbol>
 </svg>
 <div class="topfade"></div>
-<a class="brand" href="#top">Andreos<span>игры, приложения, AI</span></a>
+<a class="brand" href="#top">Andreos<span>игры, приложения, AI</span><i class="progress" id="progress"></i></a>
 <div class="tools">
   <button class="chip" id="themeBtn" type="button" aria-label="Тема сайта"><svg class="ic"><use id="themeIco" href="#i-moon"/></svg><span id="themeLabel">Тёмная</span></button>
   <button class="chip" id="music" type="button" aria-pressed="false" aria-label="Музыка и звуки сайта"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><svg class="ic" style="margin-left:-2px"><use href="#i-leaf"/></svg><span id="musicLabel">Природа</span></button>
   <a class="chip" data-track="top-dm" href="https://ig.me/m/misterandreos">Написать</a>
 </div>
 <div class="secrets" id="secrets" title="Нажимай на рисунки, чтобы найти секреты"><svg class="ic"><use href="#i-search"/></svg> Секреты <b id="secN">0</b>/3</div>
-<div class="progress" id="progress"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <main>
