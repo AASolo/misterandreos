@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Andreos — игры, приложения, сайты и AI-агенты</title>
-<meta name="description" content="Andreos делает с помощью ИИ игры, приложения, сайты и AI-агентов. Листай историю, ищи секреты и играй.">
+<meta name="description" content="Andreos делает с помощью ИИ игры, приложения, сайты и AI-агентов. Новинка: «Дорога в океан», вырасти рыбку и отпусти её на свободу. Листай историю, ищи секреты и играй.">
 <meta property="og:title" content="Andreos — превращаю идеи в работающие проекты">
 <meta property="og:description" content="Игры, приложения, сайты и AI-агенты, которые я делаю с помощью ИИ. Листай историю и играй прямо на сайте.">
 <meta property="og:type" content="website">
@@ -84,6 +84,11 @@
   .reveal.on{opacity:1;transform:none}
   .btn{display:inline-block;margin-top:20px;font-weight:700;padding:13px 20px;border-radius:12px;background:var(--ink);color:var(--on-ink);border:0}
   .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink);margin-left:8px}
+  .news{display:flex;gap:10px;align-items:center;margin-top:18px;padding:10px 14px;border:1px solid var(--ink);border-radius:14px;background:var(--card);font-size:15px;line-height:1.35;max-width:520px;text-align:left}
+  .news b{flex:none;font-size:12px;text-transform:uppercase;letter-spacing:.06em;background:var(--sea);color:#fff;padding:4px 8px;border-radius:8px}
+  .news i{font-style:normal;font-weight:700;margin-left:auto}
+  .num .new{color:var(--sea);font-weight:700}
+  .lead{font-weight:700;margin-top:12px}
   .tag{display:inline-block;margin-top:12px;font-size:13px;color:var(--ink);border:1px dashed var(--ink);padding:3px 10px;border-radius:99px}
   .bubble{position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%) scale(.8);opacity:0;background:var(--ink);color:var(--on-ink);font-size:14px;padding:8px 12px;border-radius:12px;white-space:nowrap;transition:.3s;pointer-events:none}
   .bubble.on{opacity:1;transform:translate(-50%,-100%) scale(1)}
@@ -171,6 +176,7 @@
       <div class="txt reveal">
         <h1>Идеи, которые оживают</h1>
         <p>Я Andreos. С помощью ИИ превращаю идеи в игры, приложения, сайты и AI-агентов. Листай историю, ищи 3 спрятанных секрета, а в конце тебя ждёт игра с наградой.</p>
+        <a class="news" data-track="intro-ocean" href="https://aasolo.github.io/doroga-v-okean/"><b>Новая игра</b> Дорога в океан: вырасти рыбку и отпусти её на свободу <i>→</i></a>
         <div class="hint">включи звуки природы и листай вниз <i>↓</i></div>
       </div>
     </div>
@@ -294,11 +300,11 @@
     </div>
   </section>
 
-  <!-- 6. Скоро -->
-  <section class="ch" data-draw>
+  <!-- 6. Новинка: Дорога в океан -->
+  <section class="ch" data-draw id="ocean">
     <div class="inner split">
       <div class="art secret" id="sFish" data-secret="fish" role="button" tabindex="0" aria-label="Рыбка. Нажми на неё.">
-        <span class="bubble" id="bFish">Буль! Ты нашёл рыбку</span>
+        <span class="bubble" id="bFish">Буль! Это я из «Дороги в океан»</span>
         <svg viewBox="0 0 200 200" aria-hidden="true" id="fishSvg">
           <path class="sea" d="M40 100 C70 60 130 60 150 100 C130 140 70 140 40 100 Z"/>
           <path class="sea" d="M150 100 L180 76 L176 100 L180 124 Z"/>
@@ -308,10 +314,12 @@
         </svg>
       </div>
       <div class="txt reveal">
-        <div class="num">глава 6</div>
-        <h2>Что дальше?</h2>
-        <p>Новая игра уже в работе. Подсказка нарисована рядом. Угадаешь, о чём она?</p>
-        <a class="btn" data-track="guess-dm" href="https://ig.me/m/misterandreos">Написать догадку</a>
+        <div class="num">глава 6 · <span class="new">новинка</span></div>
+        <h2>Дорога в океан уже вышла</h2>
+        <p>Помнишь рыбку-подсказку? Теперь она живая и ждёт тебя. Корми малька, ухаживай за аквариумом, и ты увидишь, как с каждым днём он растёт и становится ярче. Тёплый свет, тихая музыка: сюда хочется возвращаться.</p>
+        <p class="lead">А через 30 дней ты сам откроешь ему дорогу в океан.</p>
+        <a class="btn" data-track="card-ocean" href="https://aasolo.github.io/doroga-v-okean/">Начать путь рыбки</a><a class="btn ghost" data-track="ocean-dm" href="https://ig.me/m/misterandreos">Показать, кого вырастил</a>
+        <div><span class="tag">бесплатно · телефон и компьютер · успокаивает</span></div>
       </div>
     </div>
   </section>
