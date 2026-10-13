@@ -89,6 +89,9 @@
   .news i{font-style:normal;font-weight:700;margin-left:auto}
   .num .new{color:var(--sea);font-weight:700}
   .lead{font-weight:700;margin-top:12px}
+  .price{margin-top:18px;padding:14px 16px;border:1px dashed var(--ink);border-radius:14px;max-width:360px;text-align:left;font-size:15px;line-height:1.45}
+  .price b{display:block;font-size:17px;margin-bottom:2px}
+  .price span{color:var(--muted)}
   .tag{display:inline-block;margin-top:12px;font-size:13px;color:var(--ink);border:1px dashed var(--ink);padding:3px 10px;border-radius:99px}
   .bubble{position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%) scale(.8);opacity:0;background:var(--ink);color:var(--on-ink);font-size:14px;padding:8px 12px;border-radius:12px;white-space:nowrap;transition:.3s;pointer-events:none}
   .bubble.on{opacity:1;transform:translate(-50%,-100%) scale(1)}
@@ -368,7 +371,8 @@
           <li><svg class="ic"><use href="#i-game"/></svg><span>Игра</span></li>
           <li><svg class="ic"><use href="#i-spark"/></svg><span>Или что-то своё, обсудим</span></li>
         </ul>
-        <a class="btn" data-track="order-dm" href="https://ig.me/m/misterandreos">Обсудить в директе</a><a class="btn ghost" data-track="idea-dm" href="https://ig.me/m/misterandreos">Предложить идею игры</a>
+        <div class="price"><b>Прайс — по запросу</b><span>Напиши «прайс» в директ: пришлю цены и сроки под твою задачу в течение дня.</span></div>
+        <a class="btn" data-track="price-dm" href="https://ig.me/m/misterandreos">Запросить прайс</a><a class="btn ghost" data-track="order-dm" href="https://ig.me/m/misterandreos">Обсудить задачу</a>
       </div>
     </div>
   </section>
