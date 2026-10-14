@@ -22,7 +22,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;700;900&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <!-- Счётчик посещений GoatCounter: замените misterandreos на свой код, если он другой -->
 <script data-goatcounter="https://misterandreos.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script>/* тема по времени: днём светлая (7:00–19:59), вечером и ночью тёмная; ручной выбор помнится 12 часов */(function(){var t=null;try{var m=JSON.parse(localStorage.getItem('themeChoice')||'null');if(m&&Date.now()-m.at<432e5)t=m.t}catch(e){}if(!t){var h=new Date().getHours();t=(h>=7&&h<20)?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})()</script>
 <style>
   :root{
     --bg:#f5f6fb; --bg2:#ffffff; --ink:#1e2140; --muted:#5d6080; --line:#1e2140; --card:#ffffff; --on-ink:#ffffff; --glass:rgba(255,255,255,.85); --rule:rgba(30,33,64,.3);
@@ -454,11 +454,14 @@
 <script>
 /* ---------- светлая / тёмная тема ---------- */
 (()=>{const root=document.documentElement, btn=document.getElementById('themeBtn'), ico=document.getElementById('themeIco'), lab=document.getElementById('themeLabel'), meta=document.querySelector('meta[name="theme-color"]');
-  const sys=()=>matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-  let saved=null; try{saved=localStorage.getItem('theme')}catch(e){}
+  const byTime=()=>{const h=new Date().getHours(); return (h>=7&&h<20)?'light':'dark'};
+  const manual=()=>{try{const m=JSON.parse(localStorage.getItem('themeChoice')||'null'); if(m&&Date.now()-m.at<432e5) return m.t}catch(e){} return null};
+  let saved=manual();
   function apply(t){root.setAttribute('data-theme',t); const d=t==='dark'; ico.setAttribute('href',d?'#i-sun':'#i-moon'); lab.textContent=d?'Светлая':'Тёмная'; if(meta)meta.setAttribute('content',d?'#0f1120':'#f5f6fb'); window.__theme=t}
-  apply(saved||sys());
-  btn.addEventListener('click',()=>{const t=root.getAttribute('data-theme')==='dark'?'light':'dark'; apply(t); try{localStorage.setItem('theme',t)}catch(e){} track('theme-'+t); if(window.onThemeChange)window.onThemeChange(t)});
+  apply(saved||byTime());
+  btn.addEventListener('click',()=>{const t=root.getAttribute('data-theme')==='dark'?'light':'dark'; apply(t); try{localStorage.setItem('themeChoice',JSON.stringify({t,at:Date.now()}))}catch(e){} track('theme-'+t); if(window.onThemeChange)window.onThemeChange(t)});
+  // если сайт открыт долго, тема сама сменится на закате и рассвете
+  setInterval(()=>{ if(manual()) return; const t=byTime(); if(t!==root.getAttribute('data-theme')){ apply(t); if(window.onThemeChange)window.onThemeChange(t) } },60000);
 })();
 /* ---------- ссылка на игру про кимчи: вставьте адрес игры в кавычки ---------- */
 const KIMCHI_URL = 'https://aasolo.github.io/kimchi-gleba/';
