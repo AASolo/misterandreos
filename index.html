@@ -92,6 +92,9 @@
   .price{margin-top:18px;padding:14px 16px;border:1px dashed var(--ink);border-radius:14px;max-width:360px;text-align:left;font-size:15px;line-height:1.45}
   .price b{display:block;font-size:17px;margin-bottom:2px}
   .price span{color:var(--muted)}
+  .howto{margin-top:14px;max-width:360px;text-align:left;font-size:15px}
+  .howto summary{cursor:pointer;font-weight:700}
+  .howto ol{margin:8px 0 0 20px;color:var(--muted);line-height:1.5}
   .tag{display:inline-block;margin-top:12px;font-size:13px;color:var(--ink);border:1px dashed var(--ink);padding:3px 10px;border-radius:99px}
   .bubble{position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%) scale(.8);opacity:0;background:var(--ink);color:var(--on-ink);font-size:14px;padding:8px 12px;border-radius:12px;white-space:nowrap;transition:.3s;pointer-events:none}
   .bubble.on{opacity:1;transform:translate(-50%,-100%) scale(1)}
@@ -156,6 +159,7 @@
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5V5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></symbol>
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19C5 10 10 5 20 4c-1 10-6 15-15 15Z"/><path d="M5 19 13 11"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.8 L19.5 5.8 V11.5 C19.5 16 16.3 19.6 12 21.2 C7.7 19.6 4.5 16 4.5 11.5 V5.8 Z"/><path d="M8.8 12 L11 14.2 L15.4 9.8"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7"/></symbol>
 </svg>
 <div class="topfade"></div>
@@ -179,7 +183,7 @@
       <div class="txt reveal">
         <h1>Идеи, которые оживают</h1>
         <p>Я Andreos. С помощью ИИ превращаю идеи в игры, приложения, сайты и AI-агентов. Листай историю, ищи 3 спрятанных секрета, а в конце тебя ждёт игра с наградой.</p>
-        <a class="news" data-track="intro-ocean" href="https://aasolo.github.io/doroga-v-okean/"><b>Новая игра</b> Дорога в океан: вырасти рыбку и отпусти её на свободу <i>→</i></a>
+        <a class="news" data-track="intro-app" href="#app"><b>Новинка</b> Приложение Andreos Play: все игры на Android в одном месте <i>→</i></a>
         <div class="hint">включи звуки природы и листай вниз <i>↓</i></div>
       </div>
     </div>
@@ -323,6 +327,41 @@
         <p class="lead">А через 30 дней ты сам откроешь ему дорогу в океан.</p>
         <a class="btn" data-track="card-ocean" href="https://aasolo.github.io/doroga-v-okean/">Начать путь рыбки</a><a class="btn ghost" data-track="ocean-dm" href="https://ig.me/m/misterandreos">Показать, кого вырастил</a>
         <div><span class="tag">бесплатно · телефон и компьютер · успокаивает</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Приложение Andreos Play -->
+  <section class="ch" data-draw id="app">
+    <div class="inner split rev">
+      <div class="art"><svg viewBox="0 0 200 200" aria-hidden="true">
+        <rect x="58" y="18" width="84" height="164" rx="16"/>
+        <path d="M88 32 L112 32"/>
+        <rect class="sun" x="72" y="50" width="25" height="25" rx="6"/><rect class="code" x="103" y="50" width="25" height="25" rx="6"/>
+        <rect class="sea" x="72" y="82" width="25" height="25" rx="6"/><rect x="103" y="82" width="25" height="25" rx="6"/>
+        <path class="sun" d="M80 140 L100 156 L120 140"/><path class="sun" d="M100 118 L100 156"/>
+        <circle cx="100" cy="170" r="4"/>
+      </svg></div>
+      <div class="txt reveal">
+        <div class="num">приложение · <span class="new">новинка</span></div>
+        <h2>Все игры в одном приложении</h2>
+        <p>Andreos Play для Android: «Дорога в океан», «Бутербашня», «Кимчи-кафе» и HackQuest. Скачай один раз и играй даже без интернета, держи серию дней и открывай 51 достижение.</p>
+        <ul class="svc">
+          <li><svg class="ic"><use href="#i-shield"/></svg><span>Без рекламы, без регистрации и без сбора данных</span></li>
+          <li><svg class="ic"><use href="#i-shield"/></svg><span>Не просит доступ к контактам, фото, камере и геолокации</span></li>
+          <li><svg class="ic"><use href="#i-shield"/></svg><span>Открытый код на GitHub: любой может проверить, что внутри</span></li>
+          <li><svg class="ic"><use href="#i-check"/></svg><span>Обновляется прямо из приложения</span></li>
+        </ul>
+        <a class="btn" data-track="app-apk" href="https://github.com/AASolo/andreos-games/releases/latest/download/AndreosPlay.apk">Скачать для Android</a><a class="btn ghost" data-track="app-code" href="https://github.com/AASolo/andreos-games">Открытый код</a>
+        <details class="howto"><summary>Как установить за минуту</summary>
+          <ol>
+            <li>Открой эту страницу на телефоне и нажми «Скачать для Android».</li>
+            <li>Открой скачанный файл AndreosPlay.apk.</li>
+            <li>Android спросит, разрешить ли установку из браузера: нажми «Разрешить». Так бывает со всеми приложениями не из Google Play.</li>
+            <li>Нажми «Установить», и игры уже на твоём телефоне.</li>
+          </ol>
+        </details>
+        <div><span class="tag">бесплатно · Android 8 и новее · 9 МБ</span></div>
       </div>
     </div>
   </section>
