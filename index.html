@@ -95,6 +95,13 @@
   .howto{margin-top:14px;max-width:360px;text-align:left;font-size:15px}
   .howto summary{cursor:pointer;font-weight:700}
   .howto ol{margin:8px 0 0 20px;color:var(--muted);line-height:1.5}
+  .maps{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(400px,88vw)}
+  .maps a{display:block;border:1px solid var(--ink);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 10px 24px -14px var(--ink);transition:transform .25s ease-out}
+  .maps a:nth-child(odd){transform:rotate(-2deg)} .maps a:nth-child(even){transform:rotate(2deg) translateY(10px)}
+  .maps a:hover,.maps a:focus-visible{transform:rotate(0) scale(1.04);z-index:1}
+  .maps img{display:block;width:100%;height:auto}
+  @media (min-width:820px){.inner.split.rev .maps{order:2}}
+  @media (prefers-reduced-motion:reduce){.maps a{transition:none}}
   .tag{display:inline-block;margin-top:12px;font-size:13px;color:var(--ink);border:1px dashed var(--ink);padding:3px 10px;border-radius:99px}
   .bubble{position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%) scale(.8);opacity:0;background:var(--ink);color:var(--on-ink);font-size:14px;padding:8px 12px;border-radius:12px;white-space:nowrap;transition:.3s;pointer-events:none}
   .bubble.on{opacity:1;transform:translate(-50%,-100%) scale(1)}
@@ -324,6 +331,34 @@
     </div>
   </section>
 
+  <!-- Подарок: карты нейросетей -->
+  <section class="ch" data-draw id="maps">
+    <div class="inner split rev">
+      <div class="maps" aria-label="Превью карт нейросетей">
+        <a data-track="maps-thumb-claude" href="https://t.me/misterandreos"><img src="maps/claude.webp" width="640" height="400" loading="lazy" alt="Карта Claude"></a>
+        <a data-track="maps-thumb-chatgpt" href="https://t.me/misterandreos"><img src="maps/chatgpt.webp" width="640" height="400" loading="lazy" alt="Карта ChatGPT"></a>
+        <a data-track="maps-thumb-deepseek" href="https://t.me/misterandreos"><img src="maps/deepseek.webp" width="640" height="400" loading="lazy" alt="Карта DeepSeek"></a>
+        <a data-track="maps-thumb-perplexity" href="https://t.me/misterandreos"><img src="maps/perplexity.webp" width="640" height="400" loading="lazy" alt="Карта Perplexity"></a>
+      </div>
+      <div class="txt reveal">
+        <div class="num">подарок · <span class="new">бесплатно</span></div>
+        <h2>4 карты нейросетей</h2>
+        <p class="lead" style="margin-top:8px">От первого запроса до своих ИИ-агентов.</p>
+        <p>Освой Claude, ChatGPT, DeepSeek и Perplexity по шагам, без хаоса. Каждая карта — 8 уровней и 80 навыков. Отмечай, что уже умеешь, и ты сразу увидишь свой следующий шаг.</p>
+        <ul class="svc">
+          <li><svg class="ic"><use href="#i-spark"/></svg><span><b>Claude</b> — тексты, документы, проекты и агенты</span></li>
+          <li><svg class="ic"><use href="#i-spark"/></svg><span><b>ChatGPT</b> — от первого чата до Codex и плагинов</span></li>
+          <li><svg class="ic"><use href="#i-spark"/></svg><span><b>DeepSeek</b> — анализ, код и недорогой API</span></li>
+          <li><svg class="ic"><use href="#i-spark"/></svg><span><b>Perplexity</b> — поиск с источниками и исследования</span></li>
+          <li><svg class="ic"><use href="#i-check"/></svg><span>В каждой: формула запроса, фразы-усилители и ловушки новичка</span></li>
+        </ul>
+        <p class="lead">Напиши мне слово «КАРТЫ» — и я пришлю все четыре в высоком качестве.</p>
+        <a class="btn" data-track="maps-tg" href="https://t.me/misterandreos">Получить в Telegram</a><a class="btn ghost" data-track="maps-ig" href="https://ig.me/m/misterandreos">Получить в Instagram</a>
+        <p class="soon" style="margin-top:12px;font-size:15px">Без рассылок и спама. Просто сохрани и возвращайся к ним, когда будешь готов к следующему уровню.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- 6. Новинка: Дорога в океан -->
   <section class="ch" data-draw id="ocean">
     <div class="inner split">
@@ -477,7 +512,7 @@
   </section>
 </main>
 
-<footer>Andreos, 2026 <a href="https://www.instagram.com/misterandreos/">Instagram</a><a data-track="donate-footer" href="https://pay.cloudtips.ru/p/b2d51fa6" target="_blank" rel="noopener">Поддержать</a><a href="https://www.threads.net/@misterandreos">Threads</a></footer>
+<footer>Andreos, 2026 <a href="https://www.instagram.com/misterandreos/">Instagram</a><a href="https://t.me/misterandreos">Telegram</a><a data-track="maps-footer" href="#maps">Карты нейросетей</a><a data-track="donate-footer" href="https://pay.cloudtips.ru/p/b2d51fa6" target="_blank" rel="noopener">Поддержать</a><a href="https://www.threads.net/@misterandreos">Threads</a></footer>
 
 <script>
 /* ---------- светлая / тёмная тема ---------- */
